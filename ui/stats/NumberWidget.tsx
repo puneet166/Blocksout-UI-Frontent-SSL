@@ -13,27 +13,27 @@ const NumberWidget = ({ label, value, isLoading }: Props) => {
 
   return (
     <Box
-      bg={ isLoading ? skeletonBgColor : bgColor }
-      px={ 3 }
+      bg={isLoading ? skeletonBgColor : bgColor}
+      px={3}
       py={{ base: 2, lg: 3 }}
-      borderRadius={ 12 }
+      borderRadius={12}
     >
       <Skeleton
-        isLoaded={ !isLoading }
+        isLoaded={!isLoading}
         color="text_secondary"
         fontSize="xs"
         w="fit-content"
       >
-        <span>{ label }</span>
+        <span>{label === "Total ETH transfers" ? "Total Taral transfers" : label}</span>
       </Skeleton>
 
       <Skeleton
-        isLoaded={ !isLoading }
-        fontWeight={ 500 }
+        isLoaded={!isLoading}
+        fontWeight={500}
         fontSize="lg"
         w="fit-content"
       >
-        { value }
+        {value}
       </Skeleton>
     </Box>
   );

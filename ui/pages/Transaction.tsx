@@ -21,12 +21,12 @@ import TxState from 'ui/tx/TxState';
 import TxTokenTransfer from 'ui/tx/TxTokenTransfer';
 
 const TABS: Array<RoutedTab> = [
-  { id: 'index', title: 'Details', component: <TxDetails/> },
-  { id: 'token_transfers', title: 'Token transfers', component: <TxTokenTransfer/> },
-  { id: 'internal', title: 'Internal txns', component: <TxInternals/> },
-  { id: 'logs', title: 'Logs', component: <TxLogs/> },
-  { id: 'state', title: 'State', component: <TxState/> },
-  { id: 'raw_trace', title: 'Raw trace', component: <TxRawTrace/> },
+  { id: 'index', title: 'Details', component: <TxDetails /> },
+  { id: 'token_transfers', title: 'Token transfers', component: <TxTokenTransfer /> },
+  { id: 'internal', title: 'Internal txns', component: <TxInternals /> },
+  { id: 'logs', title: 'Logs', component: <TxLogs /> },
+  { id: 'state', title: 'State', component: <TxState /> },
+  { id: 'raw_trace', title: 'Raw trace', component: <TxRawTrace /> },
 ];
 
 const TransactionPageContent = () => {
@@ -46,10 +46,10 @@ const TransactionPageContent = () => {
 
   const tags = (
     <EntityTags
-      isLoading={ isPlaceholderData }
-      tagsBefore={ [ data?.tx_tag ? { label: data.tx_tag, display_name: data.tx_tag } : undefined ] }
+      isLoading={isPlaceholderData}
+      tagsBefore={[data?.tx_tag ? { label: data.tx_tag, display_name: data.tx_tag } : undefined]}
       contentAfter={
-        <NetworkExplorers type="tx" pathParam={ hash } ml={{ base: 'initial', lg: 'auto' }} hideText={ isMobile && Boolean(data?.tx_tag) }/>
+        <NetworkExplorers type="tx" pathParam={hash} ml={{ base: 'initial', lg: 'auto' }} hideText={isMobile && Boolean(data?.tx_tag)} />
       }
     />
   );
@@ -65,17 +65,17 @@ const TransactionPageContent = () => {
       label: 'Back to transactions list',
       url: appProps.referrer,
     };
-  }, [ appProps.referrer ]);
+  }, [appProps.referrer]);
 
   return (
     <>
-      <TextAd mb={ 6 }/>
+      <TextAd mb={6} />
       <PageTitle
         title="Transaction details"
-        backLink={ backLink }
-        contentAfter={ tags }
+        backLink={backLink}
+      // contentAfter={tags}
       />
-      <RoutedTabs tabs={ TABS }/>
+      <RoutedTabs tabs={TABS} />
     </>
   );
 };

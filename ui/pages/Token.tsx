@@ -41,8 +41,8 @@ import TokenVerifiedInfo from 'ui/token/TokenVerifiedInfo';
 export type TokenTabs = 'token_transfers' | 'holders' | 'inventory';
 
 const TokenPageContent = () => {
-  const [ isSocketOpen, setIsSocketOpen ] = React.useState(false);
-  const [ totalSupplySocket, setTotalSupplySocket ] = React.useState<number>();
+  const [isSocketOpen, setIsSocketOpen] = React.useState(false);
+  const [totalSupplySocket, setTotalSupplySocket] = React.useState<number>();
   const router = useRouter();
   const isMobile = useIsMobile();
 
@@ -78,7 +78,7 @@ const TokenPageContent = () => {
         }
       });
     }
-  }, [ tokenQuery.data, totalSupplySocket, hashString, queryClient ]);
+  }, [tokenQuery.data, totalSupplySocket, hashString, queryClient]);
 
   const handleTotalSupplyMessage: SocketMessage.TokenTotalSupply['handler'] = React.useCallback((payload) => {
     const prevData = queryClient.getQueryData(getResourceKey('token', { pathParams: { hash: hashString } }));
@@ -90,10 +90,10 @@ const TokenPageContent = () => {
         return { ...prevData, total_supply: payload.total_supply.toString() };
       }
     });
-  }, [ queryClient, hashString ]);
+  }, [queryClient, hashString]);
 
   const channel = useSocketChannel({
-    topic: `tokens:${ hashString?.toLowerCase() }`,
+    topic: `tokens:${hashString?.toLowerCase()}`,
     isDisabled: !hashString,
     onJoin: () => setIsSocketOpen(true),
   });
@@ -105,8 +105,8 @@ const TokenPageContent = () => {
 
   useEffect(() => {
     if (tokenQuery.data && !tokenQuery.isPlaceholderData) {
-      const tokenSymbol = tokenQuery.data.symbol ? ` (${ tokenQuery.data.symbol })` : '';
-      const tokenName = `${ tokenQuery.data.name || 'Unnamed' }${ tokenSymbol }`;
+      const tokenSymbol = tokenQuery.data.symbol ? ` (${tokenQuery.data.symbol})` : '';
+      const tokenName = `${tokenQuery.data.name || 'Unnamed'}${tokenSymbol}`;
       const title = document.getElementsByTagName('title')[0];
       if (title) {
         title.textContent = title.textContent?.replace(tokenQuery.data.address, tokenName) || title.textContent;
@@ -116,7 +116,7 @@ const TokenPageContent = () => {
         description.content = description.content.replace(tokenQuery.data.address, tokenName) || description.content;
       }
     }
-  }, [ tokenQuery.data, tokenQuery.isPlaceholderData ]);
+  }, [tokenQuery.data, tokenQuery.isPlaceholderData]);
 
   const hasData = (tokenQuery.data && !tokenQuery.isPlaceholderData) && (contractQuery.data && !contractQuery.isPlaceholderData);
 
@@ -159,10 +159,10 @@ const TokenPageContent = () => {
   const contractTabs = useContractTabs(contractQuery.data);
 
   const tabs: Array<RoutedTab> = [
-    { id: 'token_transfers', title: 'Token transfers', component: <TokenTransfer transfersQuery={ transfersQuery } token={ tokenQuery.data }/> },
-    { id: 'holders', title: 'Holders', component: <TokenHolders token={ tokenQuery.data } holdersQuery={ holdersQuery }/> },
+    { id: 'token_transfers', title: 'Token transfers', component: <TokenTransfer transfersQuery={transfersQuery} token={tokenQuery.data} /> },
+    { id: 'holders', title: 'Holders', component: <TokenHolders token={tokenQuery.data} holdersQuery={holdersQuery} /> },
     (tokenQuery.data?.type === 'ERC-1155' || tokenQuery.data?.type === 'ERC-721') ?
-      { id: 'inventory', title: 'Inventory', component: <TokenInventory inventoryQuery={ inventoryQuery }/> } :
+      { id: 'inventory', title: 'Inventory', component: <TokenInventory inventoryQuery={inventoryQuery} /> } :
       undefined,
     contractQuery.data?.is_contract ? {
       id: 'contract',
@@ -171,14 +171,14 @@ const TokenPageContent = () => {
           return (
             <>
               <span>Contract</span>
-              <Icon as={ iconSuccess } boxSize="14px" color="green.500" ml={ 1 }/>
+              <Icon as={iconSuccess} boxSize="14px" color="green.500" ml={1} />
             </>
           );
         }
 
         return 'Contract';
       },
-      component: <AddressContract tabs={ contractTabs }/>,
+      component: <AddressContract tabs={contractTabs} />,
       subTabs: contractTabs.map(tab => tab.id),
     } : undefined,
   ].filter(Boolean);
@@ -197,7 +197,7 @@ const TokenPageContent = () => {
     pagination = inventoryQuery.pagination;
   }
 
-  const tokenSymbolText = tokenQuery.data?.symbol ? ` (${ trimTokenSymbol(tokenQuery.data.symbol) })` : '';
+  const tokenSymbolText = tokenQuery.data?.symbol ? ` (${trimTokenSymbol(tokenQuery.data.symbol)})` : '';
 
   const tabListProps = React.useCallback(({ isSticky, activeTabIndex }: { isSticky: boolean; activeTabIndex: number }) => {
     if (isMobile) {
@@ -210,7 +210,7 @@ const TokenPageContent = () => {
       marginBottom: 0,
       boxShadow: activeTabIndex === 2 && isSticky ? 'action_bar' : 'none',
     };
-  }, [ isMobile ]);
+  }, [isMobile]);
 
   const backLink = React.useMemo(() => {
     const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/tokens');
@@ -223,68 +223,68 @@ const TokenPageContent = () => {
       label: 'Back to tokens list',
       url: appProps.referrer,
     };
-  }, [ appProps.referrer ]);
+  }, [appProps.referrer]);
 
   const tags = (
     <EntityTags
-      data={ contractQuery.data }
-      isLoading={ tokenQuery.isPlaceholderData || contractQuery.isPlaceholderData }
-      tagsBefore={ [
+      data={contractQuery.data}
+      isLoading={tokenQuery.isPlaceholderData || contractQuery.isPlaceholderData}
+      tagsBefore={[
         tokenQuery.data ? { label: tokenQuery.data?.type, display_name: tokenQuery.data?.type } : undefined,
-      ] }
+      ]}
       tagsAfter={
         verifiedInfoQuery.data?.projectSector ?
-          [ { label: verifiedInfoQuery.data.projectSector, display_name: verifiedInfoQuery.data.projectSector } ] :
+          [{ label: verifiedInfoQuery.data.projectSector, display_name: verifiedInfoQuery.data.projectSector }] :
           undefined
       }
-      contentAfter={
-        <NetworkExplorers type="token" pathParam={ hashString } ml="auto" hideText={ isMobile }/>
-      }
-      flexGrow={ 1 }
+      // contentAfter={
+      //   <NetworkExplorers type="token" pathParam={ hashString } ml="auto" hideText={ isMobile }/>
+      // }
+      flexGrow={1}
     />
   );
 
   return (
     <>
-      <TextAd mb={ 6 }/>
+      <TextAd mb={6} />
       <PageTitle
-        title={ `${ tokenQuery.data?.name || 'Unnamed' }${ tokenSymbolText } token` }
-        isLoading={ tokenQuery.isPlaceholderData }
-        backLink={ backLink }
-        beforeTitle={ (
+        title={`${tokenQuery.data?.name || 'Unnamed'}${tokenSymbolText} token`}
+        isLoading={tokenQuery.isPlaceholderData}
+        backLink={backLink}
+        beforeTitle={(
           <TokenLogo
-            data={ tokenQuery.data }
-            boxSize={ 6 }
-            isLoading={ tokenQuery.isPlaceholderData }
+            data={tokenQuery.data}
+            boxSize={6}
+            isLoading={tokenQuery.isPlaceholderData}
             display="inline-block"
-            mr={ 2 }
+            mr={2}
             my={{ base: 'auto', lg: tokenQuery.isPlaceholderData ? 2 : 'auto' }}
             verticalAlign={{ base: undefined, lg: tokenQuery.isPlaceholderData ? 'text-bottom' : undefined }}
           />
-        ) }
+        )}
         afterTitle={
           verifiedInfoQuery.data?.tokenAddress ?
-            <Icon as={ iconSuccess } color="green.500" boxSize={ 4 } verticalAlign="top"/> :
-            <Box boxSize={ 4 } display="inline-block"/>
+            <Icon as={iconSuccess} color="green.500" boxSize={4} verticalAlign="top" /> :
+            <Box boxSize={4} display="inline-block" />
         }
-        contentAfter={ tags }
+        contentAfter={tags}
       />
-      <TokenContractInfo tokenQuery={ tokenQuery } contractQuery={ contractQuery }/>
-      <TokenVerifiedInfo verifiedInfoQuery={ verifiedInfoQuery } isVerifiedInfoEnabled={ isVerifiedInfoEnabled }/>
-      <TokenDetails tokenQuery={ tokenQuery }/>
-      { /* should stay before tabs to scroll up with pagination */ }
-      <Box ref={ scrollRef }></Box>
+      <TokenContractInfo tokenQuery={tokenQuery} contractQuery={contractQuery} />
+      <TokenVerifiedInfo verifiedInfoQuery={verifiedInfoQuery} isVerifiedInfoEnabled={isVerifiedInfoEnabled} />
+      <TokenDetails tokenQuery={tokenQuery} />
+      { /* should stay before tabs to scroll up with pagination */}
+      <Box ref={scrollRef}></Box>
 
-      { tokenQuery.isPlaceholderData || contractQuery.isPlaceholderData ?
-        <TabsSkeleton tabs={ tabs }/> :
+      {tokenQuery.isPlaceholderData || contractQuery.isPlaceholderData ?
+        <TabsSkeleton tabs={tabs} /> :
         (
           <RoutedTabs
-            tabs={ tabs }
-            tabListProps={ tabListProps }
-            rightSlot={ !isMobile && pagination?.isVisible ? <Pagination { ...pagination }/> : null }
-            stickyEnabled={ !isMobile }
+            tabs={tabs}
+            tabListProps={tabListProps}
+            rightSlot={!isMobile && pagination?.isVisible ? <Pagination {...pagination} /> : null}
+            stickyEnabled={!isMobile}
           />
-        ) }
+        )}
     </>
   );
 };

@@ -30,7 +30,7 @@ const TokenInstanceDetails = ({ data, scrollRef, isLoading }: Props) => {
       // cannot do scroll instantly, have to wait a little
       scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
     }, 500);
-  }, [ scrollRef ]);
+  }, [scrollRef]);
 
   if (!data) {
     return null;
@@ -38,10 +38,10 @@ const TokenInstanceDetails = ({ data, scrollRef, isLoading }: Props) => {
 
   return (
     <>
-      <Flex alignItems="flex-start" mt={ 8 } flexDir={{ base: 'column-reverse', lg: 'row' }} columnGap={ 6 } rowGap={ 6 }>
+      <Flex alignItems="flex-start" mt={8} flexDir={{ base: 'column-reverse', lg: 'row' }} columnGap={6} rowGap={6}>
         <Grid
-          flexGrow={ 1 }
-          columnGap={ 8 }
+          flexGrow={1}
+          columnGap={8}
           rowGap={{ base: 1, lg: 3 }}
           templateColumns={{ base: 'minmax(0, 1fr)', lg: '200px minmax(0, 1fr)' }}
           overflow="hidden"
@@ -49,57 +49,57 @@ const TokenInstanceDetails = ({ data, scrollRef, isLoading }: Props) => {
           <DetailsInfoItem
             title="Token"
             hint="Token name"
-            isLoading={ isLoading }
+            isLoading={isLoading}
           >
-            <TokenSnippet data={ data.token } isLoading={ isLoading }/>
+            <TokenSnippet data={data.token} isLoading={isLoading} />
           </DetailsInfoItem>
-          { data.is_unique && data.owner && (
+          {data.is_unique && data.owner && (
             <DetailsInfoItem
               title="Owner"
               hint="Current owner of this token instance"
-              isLoading={ isLoading }
+              isLoading={isLoading}
             >
               <Address>
-                <AddressIcon address={ data.owner } isLoading={ isLoading }/>
-                <AddressLink type="address" hash={ data.owner.hash } ml={ 2 } isLoading={ isLoading }/>
-                <CopyToClipboard text={ data.owner.hash } isLoading={ isLoading }/>
+                <AddressIcon address={data.owner} isLoading={isLoading} />
+                <AddressLink type="address" hash={data.owner.hash} ml={2} isLoading={isLoading} />
+                <CopyToClipboard text={data.owner.hash} isLoading={isLoading} />
               </Address>
             </DetailsInfoItem>
-          ) }
-          <TokenInstanceCreatorAddress hash={ isLoading ? '' : data.token.address }/>
+          )}
+          <TokenInstanceCreatorAddress hash={isLoading ? '' : data.token.address} />
           <DetailsInfoItem
             title="Token ID"
             hint="This token instance unique token ID"
-            isLoading={ isLoading }
+            isLoading={isLoading}
           >
             <Flex alignItems="center" overflow="hidden">
-              <Skeleton isLoaded={ !isLoading } overflow="hidden" display="inline-block" w="100%">
-                <HashStringShortenDynamic hash={ data.id }/>
+              <Skeleton isLoaded={!isLoading} overflow="hidden" display="inline-block" w="100%">
+                <HashStringShortenDynamic hash={data.id} />
               </Skeleton>
-              <CopyToClipboard text={ data.id } isLoading={ isLoading }/>
+              <CopyToClipboard text={data.id} isLoading={isLoading} />
             </Flex>
           </DetailsInfoItem>
-          <TokenInstanceTransfersCount hash={ isLoading ? '' : data.token.address } id={ isLoading ? '' : data.id } onClick={ handleCounterItemClick }/>
+          <TokenInstanceTransfersCount hash={isLoading ? '' : data.token.address} id={isLoading ? '' : data.id} onClick={handleCounterItemClick} />
         </Grid>
         <NftMedia
-          imageUrl={ data.image_url }
-          animationUrl={ data.animation_url }
+          imageUrl={data.image_url}
+          animationUrl={data.animation_url}
           w="250px"
-          flexShrink={ 0 }
+          flexShrink={0}
           alignSelf={{ base: 'center', lg: 'flex-start' }}
-          isLoading={ isLoading }
+          isLoading={isLoading}
         />
       </Flex>
       <Grid
-        mt={ 5 }
-        columnGap={ 8 }
+        mt={5}
+        columnGap={8}
         rowGap={{ base: 1, lg: 3 }}
         templateColumns={{ base: 'minmax(0, 1fr)', lg: '200px minmax(0, 1fr)' }}
         overflow="hidden"
       >
-        <TokenInstanceMetadataInfo data={ data } isLoading={ isLoading }/>
-        <TokenInstanceDivider/>
-        <DetailsSponsoredItem isLoading={ isLoading }/>
+        <TokenInstanceMetadataInfo data={data} isLoading={isLoading} />
+        <TokenInstanceDivider />
+        {/* <DetailsSponsoredItem isLoading={ isLoading }/> */}
       </Grid>
     </>
   );

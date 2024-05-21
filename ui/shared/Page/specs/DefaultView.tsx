@@ -34,23 +34,23 @@ const DefaultView = () => {
 
   const contentAfter = (
     <EntityTags
-      tagsBefore={ [
+      tagsBefore={[
         { label: 'example', display_name: 'Example label' },
-      ] }
-      contentAfter={ <NetworkExplorers type="token" pathParam="token-hash" ml="auto" hideText={ isMobile }/> }
-      flexGrow={ 1 }
+      ]}
+      // contentAfter={ <NetworkExplorers type="token" pathParam="token-hash" ml="auto" hideText={ isMobile }/> }
+      flexGrow={1}
     />
   );
 
   return (
     <PageTitle
       title="Shavukha Token (SHVKH) token"
-      beforeTitle={ (
-        <TokenLogo data={ tokenData } boxSize={ 6 } display="inline-block" mr={ 2 }/>
-      ) }
-      afterTitle={ <Icon as={ iconSuccess } color="green.500" boxSize={ 4 } verticalAlign="top"/> }
-      backLink={ backLink }
-      contentAfter={ contentAfter }
+      beforeTitle={(
+        <TokenLogo data={tokenData} boxSize={6} display="inline-block" mr={2} />
+      )}
+      afterTitle={<Icon as={iconSuccess} color="green.500" boxSize={4} verticalAlign="top" />}
+      backLink={backLink}
+      contentAfter={contentAfter}
     />
   );
 };

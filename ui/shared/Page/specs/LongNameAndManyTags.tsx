@@ -33,32 +33,32 @@ const LongNameAndManyTags = () => {
   const contentAfter = (
     <EntityTags
       data={{
-        private_tags: [ privateTag ],
-        public_tags: [ publicTag ],
-        watchlist_names: [ watchlistName ],
+        private_tags: [privateTag],
+        public_tags: [publicTag],
+        watchlist_names: [watchlistName],
       }}
-      tagsBefore={ [
+      tagsBefore={[
         { label: 'example', display_name: 'Example with long name' },
-      ] }
-      tagsAfter={ [
+      ]}
+      tagsAfter={[
         { label: 'after_1', display_name: 'Another tag' },
         { label: 'after_2', display_name: 'And yet more' },
-      ] }
-      contentAfter={ <NetworkExplorers type="token" pathParam="token-hash" ml="auto" hideText={ isMobile }/> }
-      flexGrow={ 1 }
+      ]}
+      // contentAfter={ <NetworkExplorers type="token" pathParam="token-hash" ml="auto" hideText={ isMobile }/> }
+      flexGrow={1}
     />
   );
 
-  const tokenSymbolText = ` (${ trimTokenSymbol(tokenData.symbol) })`;
+  const tokenSymbolText = ` (${trimTokenSymbol(tokenData.symbol)})`;
 
   return (
     <PageTitle
-      title={ `${ tokenData?.name }${ tokenSymbolText } token` }
-      beforeTitle={ (
-        <TokenLogo data={ tokenData } boxSize={ 6 } display="inline-block" mr={ 2 }/>
-      ) }
-      afterTitle={ <Icon as={ iconSuccess } color="green.500" boxSize={ 4 } verticalAlign="top"/> }
-      contentAfter={ contentAfter }
+      title={`${tokenData?.name}${tokenSymbolText} token`}
+      beforeTitle={(
+        <TokenLogo data={tokenData} boxSize={6} display="inline-block" mr={2} />
+      )}
+      afterTitle={<Icon as={iconSuccess} color="green.500" boxSize={4} verticalAlign="top" />}
+      contentAfter={contentAfter}
     />
   );
 };

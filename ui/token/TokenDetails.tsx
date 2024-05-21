@@ -37,7 +37,7 @@ const TokenDetails = ({ tokenQuery }: Props) => {
       duration: 500,
       smooth: true,
     });
-  }, [ router ]);
+  }, [router]);
 
   const countersItem = useCallback((item: 'token_holders_count' | 'transfers_count') => {
     const itemValue = tokenCountersQuery.data?.[item];
@@ -51,13 +51,13 @@ const TokenDetails = ({ tokenQuery }: Props) => {
     const tab: TokenTabs = item === 'token_holders_count' ? 'holders' : 'token_transfers';
 
     return (
-      <Skeleton isLoaded={ !tokenCountersQuery.isPlaceholderData }>
-        <Link onClick={ changeUrlAndScroll(tab) }>
-          { Number(itemValue).toLocaleString() }
+      <Skeleton isLoaded={!tokenCountersQuery.isPlaceholderData}>
+        <Link onClick={changeUrlAndScroll(tab)}>
+          {Number(itemValue).toLocaleString()}
         </Link>
       </Skeleton>
     );
-  }, [ tokenCountersQuery.data, tokenCountersQuery.isPlaceholderData, changeUrlAndScroll ]);
+  }, [tokenCountersQuery.data, tokenCountersQuery.isPlaceholderData, changeUrlAndScroll]);
 
   if (tokenQuery.isError) {
     throw Error('Token fetch error', { cause: tokenQuery.error as unknown as Error });
@@ -83,49 +83,49 @@ const TokenDetails = ({ tokenQuery }: Props) => {
 
   return (
     <Grid
-      mt={ 8 }
-      columnGap={ 8 }
+      mt={8}
+      columnGap={8}
       rowGap={{ base: 1, lg: 3 }}
       templateColumns={{ base: 'minmax(0, 1fr)', lg: 'auto minmax(0, 1fr)' }} overflow="hidden"
     >
-      { exchangeRate && (
+      {exchangeRate && (
         <DetailsInfoItem
           title="Price"
           hint="Price per token on the exchanges"
           alignSelf="center"
-          isLoading={ tokenQuery.isPlaceholderData }
+          isLoading={tokenQuery.isPlaceholderData}
         >
-          <Skeleton isLoaded={ !tokenQuery.isPlaceholderData } display="inline-block">
-            <span>{ `$${ exchangeRate }` }</span>
+          <Skeleton isLoaded={!tokenQuery.isPlaceholderData} display="inline-block">
+            <span>{`$${exchangeRate}`}</span>
           </Skeleton>
         </DetailsInfoItem>
-      ) }
-      { marketCap && (
+      )}
+      {marketCap && (
         <DetailsInfoItem
           title="Fully diluted market cap"
           hint="Total supply * Price"
           alignSelf="center"
-          isLoading={ tokenQuery.isPlaceholderData }
+          isLoading={tokenQuery.isPlaceholderData}
         >
-          <Skeleton isLoaded={ !tokenQuery.isPlaceholderData } display="inline-block">
-            <span>{ `$${ BigNumber(marketCap).toFormat() }` }</span>
+          <Skeleton isLoaded={!tokenQuery.isPlaceholderData} display="inline-block">
+            <span>{`$${BigNumber(marketCap).toFormat()}`}</span>
           </Skeleton>
         </DetailsInfoItem>
-      ) }
+      )}
       <DetailsInfoItem
         title="Max total supply"
         hint="The total amount of tokens issued"
         alignSelf="center"
         wordBreak="break-word"
         whiteSpace="pre-wrap"
-        isLoading={ tokenQuery.isPlaceholderData }
+        isLoading={tokenQuery.isPlaceholderData}
       >
-        <Skeleton isLoaded={ !tokenQuery.isPlaceholderData }>
+        <Skeleton isLoaded={!tokenQuery.isPlaceholderData}>
           <Flex w="100%">
             <Box whiteSpace="nowrap" overflow="hidden">
-              <HashStringShortenDynamic hash={ totalSupplyValue || '0' }/>
+              <HashStringShortenDynamic hash={totalSupplyValue || '0'} />
             </Box>
-            <Box flexShrink={ 0 }> { symbol || '' }</Box>
+            <Box flexShrink={0}> {symbol || ''}</Box>
           </Flex>
         </Skeleton>
       </DetailsInfoItem>
@@ -133,35 +133,35 @@ const TokenDetails = ({ tokenQuery }: Props) => {
         title="Holders"
         hint="Number of accounts holding the token"
         alignSelf="center"
-        isLoading={ tokenQuery.isPlaceholderData }
+        isLoading={tokenQuery.isPlaceholderData}
       >
-        <Skeleton isLoaded={ !tokenCountersQuery.isPlaceholderData }>
-          { countersItem('token_holders_count') }
+        <Skeleton isLoaded={!tokenCountersQuery.isPlaceholderData}>
+          {countersItem('token_holders_count')}
         </Skeleton>
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Transfers"
         hint="Number of transfer for the token"
         alignSelf="center"
-        isLoading={ tokenQuery.isPlaceholderData }
+        isLoading={tokenQuery.isPlaceholderData}
       >
-        <Skeleton isLoaded={ !tokenCountersQuery.isPlaceholderData }>
-          { countersItem('transfers_count') }
+        <Skeleton isLoaded={!tokenCountersQuery.isPlaceholderData}>
+          {countersItem('transfers_count')}
         </Skeleton>
       </DetailsInfoItem>
-      { decimals && (
+      {decimals && (
         <DetailsInfoItem
           title="Decimals"
           hint="Number of digits that come after the decimal place when displaying token value"
           alignSelf="center"
-          isLoading={ tokenQuery.isPlaceholderData }
+          isLoading={tokenQuery.isPlaceholderData}
         >
-          <Skeleton isLoaded={ !tokenQuery.isPlaceholderData } minW={ 6 }>
-            { decimals }
+          <Skeleton isLoaded={!tokenQuery.isPlaceholderData} minW={6}>
+            {decimals}
           </Skeleton>
         </DetailsInfoItem>
-      ) }
-      <DetailsSponsoredItem isLoading={ tokenQuery.isPlaceholderData }/>
+      )}
+      {/* <DetailsSponsoredItem isLoading={ tokenQuery.isPlaceholderData }/> */}
     </Grid>
   );
 };

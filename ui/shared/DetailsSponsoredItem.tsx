@@ -20,8 +20,8 @@ const DetailsSponsoredItem = ({ isLoading }: Props) => {
 
   if (isMobile) {
     return (
-      <GridItem mt={ 5 }>
-        <AdBanner mx="auto" isLoading={ isLoading } display="flex" justifyContent="center"/>
+      <GridItem mt={5}>
+        <AdBanner mx="auto" isLoading={isLoading} display="flex" justifyContent="center" />
       </GridItem>
     );
   }
@@ -30,9 +30,9 @@ const DetailsSponsoredItem = ({ isLoading }: Props) => {
     <DetailsInfoItem
       title="Sponsored"
       hint="Sponsored banner advertisement"
-      isLoading={ isLoading }
+      isLoading={isLoading}
     >
-      <AdBanner isLoading={ isLoading }/>
+      <AdBanner isLoading={isLoading} />
     </DetailsInfoItem>
   );
 };

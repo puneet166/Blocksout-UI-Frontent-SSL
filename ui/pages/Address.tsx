@@ -58,20 +58,20 @@ const AddressPageContent = () => {
 
   const tabs: Array<RoutedTab> = React.useMemo(() => {
     return [
-      { id: 'txs', title: 'Transactions', component: <AddressTxs scrollRef={ tabsScrollRef }/> },
+      { id: 'txs', title: 'Transactions', component: <AddressTxs scrollRef={tabsScrollRef} /> },
       appConfig.beaconChain.hasBeaconChain && addressQuery.data?.has_beacon_chain_withdrawals ?
-        { id: 'withdrawals', title: 'Withdrawals', component: <AddressWithdrawals scrollRef={ tabsScrollRef }/> } :
+        { id: 'withdrawals', title: 'Withdrawals', component: <AddressWithdrawals scrollRef={tabsScrollRef} /> } :
         undefined,
       addressQuery.data?.has_token_transfers ?
-        { id: 'token_transfers', title: 'Token transfers', component: <AddressTokenTransfers scrollRef={ tabsScrollRef }/> } :
+        { id: 'token_transfers', title: 'Token transfers', component: <AddressTokenTransfers scrollRef={tabsScrollRef} /> } :
         undefined,
-      addressQuery.data?.has_tokens ? { id: 'tokens', title: 'Tokens', component: <AddressTokens/>, subTabs: TOKEN_TABS } : undefined,
-      { id: 'internal_txns', title: 'Internal txns', component: <AddressInternalTxs scrollRef={ tabsScrollRef }/> },
-      { id: 'coin_balance_history', title: 'Coin balance history', component: <AddressCoinBalance/> },
+      addressQuery.data?.has_tokens ? { id: 'tokens', title: 'Tokens', component: <AddressTokens />, subTabs: TOKEN_TABS } : undefined,
+      { id: 'internal_txns', title: 'Internal txns', component: <AddressInternalTxs scrollRef={tabsScrollRef} /> },
+      { id: 'coin_balance_history', title: 'Coin balance history', component: <AddressCoinBalance /> },
       addressQuery.data?.has_validated_blocks ?
-        { id: 'blocks_validated', title: 'Blocks validated', component: <AddressBlocksValidated scrollRef={ tabsScrollRef }/> } :
+        { id: 'blocks_validated', title: 'Blocks validated', component: <AddressBlocksValidated scrollRef={tabsScrollRef} /> } :
         undefined,
-      addressQuery.data?.has_logs ? { id: 'logs', title: 'Logs', component: <AddressLogs scrollRef={ tabsScrollRef }/> } : undefined,
+      addressQuery.data?.has_logs ? { id: 'logs', title: 'Logs', component: <AddressLogs scrollRef={tabsScrollRef} /> } : undefined,
       addressQuery.data?.is_contract ? {
         id: 'contract',
         title: () => {
@@ -79,35 +79,35 @@ const AddressPageContent = () => {
             return (
               <>
                 <span>Contract</span>
-                <Icon as={ iconSuccess } boxSize="14px" color="green.500" ml={ 1 }/>
+                <Icon as={iconSuccess} boxSize="14px" color="green.500" ml={1} />
               </>
             );
           }
 
           return 'Contract';
         },
-        component: <AddressContract tabs={ contractTabs }/>,
+        component: <AddressContract tabs={contractTabs} />,
         subTabs: contractTabs.map(tab => tab.id),
       } : undefined,
     ].filter(Boolean);
-  }, [ addressQuery.data, contractTabs ]);
+  }, [addressQuery.data, contractTabs]);
 
   const tags = (
     <EntityTags
-      data={ addressQuery.data }
-      isLoading={ addressQuery.isPlaceholderData }
-      tagsBefore={ [
+      data={addressQuery.data}
+      isLoading={addressQuery.isPlaceholderData}
+      tagsBefore={[
         addressQuery.data?.is_contract ? { label: 'contract', display_name: 'Contract' } : { label: 'eoa', display_name: 'EOA' },
         addressQuery.data?.implementation_address ? { label: 'proxy', display_name: 'Proxy' } : undefined,
         addressQuery.data?.token ? { label: 'token', display_name: 'Token' } : undefined,
-      ] }
-      contentAfter={
-        <NetworkExplorers type="address" pathParam={ hash } ml="auto" hideText={ isMobile }/>
-      }
+      ]}
+    // contentAfter={
+    //   <NetworkExplorers type="address" pathParam={ hash } ml="auto" hideText={ isMobile }/>
+    // }
     />
   );
 
-  const content = addressQuery.isError ? null : <RoutedTabs tabs={ tabs } tabListProps={{ mt: 8 }}/>;
+  const content = addressQuery.isError ? null : <RoutedTabs tabs={tabs} tabListProps={{ mt: 8 }} />;
 
   const backLink = React.useMemo(() => {
     const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/accounts');
@@ -120,21 +120,21 @@ const AddressPageContent = () => {
       label: 'Back to top accounts list',
       url: appProps.referrer,
     };
-  }, [ appProps.referrer ]);
+  }, [appProps.referrer]);
 
   return (
     <>
-      <TextAd mb={ 6 }/>
+      <TextAd mb={6} />
       <PageTitle
-        title={ `${ addressQuery.data?.is_contract ? 'Contract' : 'Address' } details` }
-        backLink={ backLink }
-        contentAfter={ tags }
-        isLoading={ addressQuery.isPlaceholderData }
+        title={`${addressQuery.data?.is_contract ? 'Contract' : 'Address'} details`}
+        backLink={backLink}
+        contentAfter={tags}
+        isLoading={addressQuery.isPlaceholderData}
       />
-      <AddressDetails addressQuery={ addressQuery } scrollRef={ tabsScrollRef }/>
-      { /* should stay before tabs to scroll up with pagination */ }
-      <Box ref={ tabsScrollRef }></Box>
-      { addressQuery.isPlaceholderData ? <TabsSkeleton tabs={ tabs }/> : content }
+      <AddressDetails addressQuery={addressQuery} scrollRef={tabsScrollRef} />
+      { /* should stay before tabs to scroll up with pagination */}
+      <Box ref={tabsScrollRef}></Box>
+      {addressQuery.isPlaceholderData ? <TabsSkeleton tabs={tabs} /> : content}
     </>
   );
 };

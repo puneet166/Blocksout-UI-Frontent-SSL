@@ -50,11 +50,13 @@ const BlockPageContent = () => {
     pathParams: { height_or_hash: heightOrHash },
     options: {
       enabled: Boolean(!blockQuery.isPlaceholderData && blockQuery.data?.height && tab === 'txs'),
-      placeholderData: generateListStub<'block_txs'>(TX, 50, { next_page_params: {
-        block_number: 9004925,
-        index: 49,
-        items_count: 50,
-      } }),
+      placeholderData: generateListStub<'block_txs'>(TX, 50, {
+        next_page_params: {
+          block_number: 9004925,
+          index: 49,
+          items_count: 50,
+        }
+      }),
     },
   });
 
@@ -63,10 +65,12 @@ const BlockPageContent = () => {
     pathParams: { height_or_hash: heightOrHash },
     options: {
       enabled: Boolean(!blockQuery.isPlaceholderData && blockQuery.data?.height && appConfig.beaconChain.hasBeaconChain && tab === 'withdrawals'),
-      placeholderData: generateListStub<'block_withdrawals'>(WITHDRAWAL, 50, { next_page_params: {
-        index: 5,
-        items_count: 50,
-      } }),
+      placeholderData: generateListStub<'block_withdrawals'>(WITHDRAWAL, 50, {
+        next_page_params: {
+          index: 5,
+          items_count: 50,
+        }
+      }),
     },
   });
 
@@ -79,12 +83,12 @@ const BlockPageContent = () => {
   }
 
   const tabs: Array<RoutedTab> = React.useMemo(() => ([
-    { id: 'index', title: 'Details', component: <BlockDetails query={ blockQuery }/> },
-    { id: 'txs', title: 'Transactions', component: <TxsContent query={ blockTxsQuery } showBlockInfo={ false } showSocketInfo={ false }/> },
+    { id: 'index', title: 'Details', component: <BlockDetails query={blockQuery} /> },
+    { id: 'txs', title: 'Transactions', component: <TxsContent query={blockTxsQuery} showBlockInfo={false} showSocketInfo={false} /> },
     appConfig.beaconChain.hasBeaconChain && Boolean(blockQuery.data?.withdrawals_count) ?
-      { id: 'withdrawals', title: 'Withdrawals', component: <BlockWithdrawals blockWithdrawalsQuery={ blockWithdrawalsQuery }/> } :
+      { id: 'withdrawals', title: 'Withdrawals', component: <BlockWithdrawals blockWithdrawalsQuery={blockWithdrawalsQuery} /> } :
       null,
-  ].filter(Boolean)), [ blockQuery, blockTxsQuery, blockWithdrawalsQuery ]);
+  ].filter(Boolean)), [blockQuery, blockTxsQuery, blockWithdrawalsQuery]);
 
   const hasPagination = !isMobile && (
     (tab === 'txs' && blockTxsQuery.pagination.isVisible) ||
@@ -109,25 +113,25 @@ const BlockPageContent = () => {
       label: 'Back to blocks list',
       url: appProps.referrer,
     };
-  }, [ appProps.referrer ]);
+  }, [appProps.referrer]);
 
   return (
     <>
-      <TextAd mb={ 6 }/>
+      <TextAd mb={6} />
       <PageTitle
-        title={ `Block #${ blockQuery.data?.height }` }
-        backLink={ backLink }
-        contentAfter={ <NetworkExplorers type="block" pathParam={ heightOrHash } ml={{ base: 'initial', lg: 'auto' }}/> }
-        isLoading={ blockQuery.isPlaceholderData }
+        title={`Block #${blockQuery.data?.height}`}
+        backLink={backLink}
+        // contentAfter={ <NetworkExplorers type="block" pathParam={ heightOrHash } ml={{ base: 'initial', lg: 'auto' }}/> }
+        isLoading={blockQuery.isPlaceholderData}
       />
-      { blockQuery.isPlaceholderData ? <TabsSkeleton tabs={ tabs }/> : (
+      {blockQuery.isPlaceholderData ? <TabsSkeleton tabs={tabs} /> : (
         <RoutedTabs
-          tabs={ tabs }
-          tabListProps={ isMobile ? undefined : TAB_LIST_PROPS }
-          rightSlot={ hasPagination ? <Pagination { ...(pagination as PaginationParams) }/> : null }
-          stickyEnabled={ hasPagination }
+          tabs={tabs}
+          tabListProps={isMobile ? undefined : TAB_LIST_PROPS}
+          rightSlot={hasPagination ? <Pagination {...(pagination as PaginationParams)} /> : null}
+          stickyEnabled={hasPagination}
         />
-      ) }
+      )}
     </>
   );
 };

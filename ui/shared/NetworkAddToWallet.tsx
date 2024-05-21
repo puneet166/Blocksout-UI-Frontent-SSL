@@ -11,15 +11,17 @@ interface Props {
 }
 
 const NetworkAddToWallet = ({ className }: Props) => {
+  console.log(">>>>>>>>>>WALLETS_INFO", WALLETS_INFO);
+
   const toast = useToast();
   const provider = useProvider();
 
-  const handleClick = React.useCallback(async() => {
+  const handleClick = React.useCallback(async () => {
     try {
       const hexadecimalChainId = '0x' + Number(appConfig.network.id).toString(16);
       const config = {
         method: 'wallet_addEthereumChain',
-        params: [ {
+        params: [{
           chainId: hexadecimalChainId,
           chainName: appConfig.network.name,
           nativeCurrency: {
@@ -27,11 +29,11 @@ const NetworkAddToWallet = ({ className }: Props) => {
             symbol: appConfig.network.currency.symbol,
             decimals: appConfig.network.currency.decimals,
           },
-          rpcUrls: [ appConfig.network.rpcUrl ],
-          blockExplorerUrls: [ appConfig.baseUrl ],
-        } ],
-      // in wagmi types for wallet_addEthereumChain method is not provided
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          rpcUrls: [appConfig.network.rpcUrl],
+          blockExplorerUrls: [appConfig.baseUrl],
+        }],
+        // in wagmi types for wallet_addEthereumChain method is not provided
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any;
       await provider?.request?.(config);
       toast({
@@ -52,7 +54,7 @@ const NetworkAddToWallet = ({ className }: Props) => {
         isClosable: true,
       });
     }
-  }, [ provider, toast ]);
+  }, [provider, toast]);
 
   if (!provider) {
     return null;
@@ -61,9 +63,9 @@ const NetworkAddToWallet = ({ className }: Props) => {
   const defaultWallet = appConfig.web3.defaultWallet;
 
   return (
-    <Button variant="outline" size="sm" onClick={ handleClick } className={ className }>
-      <Icon as={ WALLETS_INFO[defaultWallet].icon } boxSize={ 5 } mr={ 2 }/>
-        Add { appConfig.network.name }
+    <Button variant="outline" size="sm" onClick={handleClick}>
+      {/* <Icon as={WALLETS_INFO[defaultWallet].icon} boxSize={5} mr={2} /> */}
+      Add {appConfig.network.name}
     </Button>
   );
 };

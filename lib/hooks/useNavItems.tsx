@@ -166,6 +166,12 @@ export default function useNavItems(): ReturnType {
         isActive: apiNavItems.some(item => isInternalItem(item) && item.isActive),
         subItems: apiNavItems,
       },
+      {
+        text: 'Faucet',
+        icon: rpcIcon,
+        // isActive: apiNavItems.some(item => isInternalItem(item) && item.isActive),
+        nextRoute: { pathname: "https://faucet-devnet.tarality.com/" as const },
+      },
       appConfig.otherLinks.length > 0 ? {
         text: 'Other',
         icon: gearIcon,

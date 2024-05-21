@@ -22,7 +22,7 @@ const NetworkExplorers = ({ className, type, pathParam, hideText }: Props) => {
     .filter((explorer) => explorer.paths[type])
     .map((explorer) => {
       const url = new URL(explorer.paths[type] + '/' + pathParam, explorer.baseUrl);
-      return <LinkExternal key={ explorer.baseUrl } href={ url.toString() }>{ explorer.title }</LinkExternal>;
+      return <LinkExternal key={explorer.baseUrl} href={url.toString()}>{explorer.title}</LinkExternal>;
     });
 
   if (explorersLinks.length === 0) {
@@ -30,22 +30,22 @@ const NetworkExplorers = ({ className, type, pathParam, hideText }: Props) => {
   }
 
   return (
-    <Popover isOpen={ isOpen } onClose={ onClose } placement="bottom-start" isLazy>
+    <Popover isOpen={isOpen} onClose={onClose} placement="bottom-start" isLazy>
       <PopoverTrigger>
         <Button
-          className={ className }
+          className={className}
           size="sm"
           variant="outline"
           colorScheme="gray"
-          onClick={ onToggle }
+          onClick={onToggle}
           aria-label="Verify in other explorers"
-          fontWeight={ 500 }
-          px={ 2 }
+          fontWeight={500}
+          px={2}
           h="30px"
         >
-          <Icon as={ explorerIcon } boxSize={ 5 } mr={ hideText ? 0 : 1 }/>
-          { !hideText && <span>Explorers</span> }
-          <Icon as={ arrowIcon } transform={ isOpen ? 'rotate(90deg)' : 'rotate(-90deg)' } transitionDuration="faster" boxSize={ 5 } ml={ 1 }/>
+          <Icon as={explorerIcon} boxSize={5} mr={hideText ? 0 : 1} />
+          {!hideText && <span>Explorers</span>}
+          <Icon as={arrowIcon} transform={isOpen ? 'rotate(90deg)' : 'rotate(-90deg)'} transitionDuration="faster" boxSize={5} ml={1} />
         </Button>
       </PopoverTrigger>
       <PopoverContent w="240px">
@@ -54,11 +54,11 @@ const NetworkExplorers = ({ className, type, pathParam, hideText }: Props) => {
           <Flex
             alignItems="center"
             flexWrap="wrap"
-            columnGap={ 6 }
-            rowGap={ 3 }
-            mt={ 3 }
+            columnGap={6}
+            rowGap={3}
+            mt={3}
           >
-            { explorersLinks }
+            {explorersLinks}
           </Flex>
         </PopoverBody>
       </PopoverContent>

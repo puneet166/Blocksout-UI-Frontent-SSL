@@ -36,7 +36,7 @@ interface Props {
 }
 
 const BlockDetails = ({ query }: Props) => {
-  const [ isExpanded, setIsExpanded ] = React.useState(false);
+  const [isExpanded, setIsExpanded] = React.useState(false);
   const router = useRouter();
   const heightOrHash = getQueryParamString(router.query.height_or_hash);
 
@@ -61,7 +61,7 @@ const BlockDetails = ({ query }: Props) => {
     const nextId = String(data.height + increment);
 
     router.push({ pathname: '/block/[height_or_hash]', query: { height_or_hash: nextId } }, undefined);
-  }, [ data, router ]);
+  }, [data, router]);
 
   if (isError) {
     if (error?.status === 404) {
@@ -72,7 +72,7 @@ const BlockDetails = ({ query }: Props) => {
       throw Error('Invalid block number', { cause: error as unknown as Error });
     }
 
-    return <DataFetchAlert/>;
+    return <DataFetchAlert />;
   }
 
   if (!data) {
@@ -98,229 +98,229 @@ const BlockDetails = ({ query }: Props) => {
     }
 
     if (isPlaceholderData) {
-      return <Skeleton w="525px" h="20px"/>;
+      return <Skeleton w="525px" h="20px" />;
     }
 
     return (
       <Text variant="secondary" whiteSpace="break-spaces">
         <Tooltip label="Static block reward">
-          <span>{ staticReward.dividedBy(WEI).toFixed() }</span>
+          <span>{staticReward.dividedBy(WEI).toFixed()}</span>
         </Tooltip>
-        { !txFees.isEqualTo(ZERO) && (
+        {!txFees.isEqualTo(ZERO) && (
           <>
-            { space }+{ space }
+            {space}+{space}
             <Tooltip label="Txn fees">
-              <span>{ txFees.dividedBy(WEI).toFixed() }</span>
+              <span>{txFees.dividedBy(WEI).toFixed()}</span>
             </Tooltip>
           </>
-        ) }
-        { !burntFees.isEqualTo(ZERO) && (
+        )}
+        {!burntFees.isEqualTo(ZERO) && (
           <>
-            { space }-{ space }
+            {space}-{space}
             <Tooltip label="Burnt fees">
-              <span>{ burntFees.dividedBy(WEI).toFixed() }</span>
+              <span>{burntFees.dividedBy(WEI).toFixed()}</span>
             </Tooltip>
           </>
-        ) }
+        )}
       </Text>
     );
   })();
 
   return (
-    <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'auto minmax(0, 1fr)' }} overflow="hidden">
+    <Grid columnGap={8} rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'auto minmax(0, 1fr)' }} overflow="hidden">
       <DetailsInfoItem
-        title={ `${ data.type === 'reorg' ? 'Reorg' : 'Block' } height` }
+        title={`${data.type === 'reorg' ? 'Reorg' : 'Block'} height`}
         hint="The block height of a particular block is defined as the number of blocks preceding it in the blockchain"
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Skeleton isLoaded={ !isPlaceholderData }>
-          { data.height }
+        <Skeleton isLoaded={!isPlaceholderData}>
+          {data.height}
         </Skeleton>
-        { data.height === 0 && <Text whiteSpace="pre"> - Genesis Block</Text> }
+        {data.height === 0 && <Text whiteSpace="pre"> - Genesis Block</Text>}
         <PrevNext
-          ml={ 6 }
-          onClick={ handlePrevNextClick }
+          ml={6}
+          onClick={handlePrevNextClick}
           prevLabel="View previous block"
           nextLabel="View next block"
-          isPrevDisabled={ data.height === 0 }
-          isLoading={ isPlaceholderData }
+          isPrevDisabled={data.height === 0}
+          isLoading={isPlaceholderData}
         />
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Size"
         hint="Size of the block in bytes"
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Skeleton isLoaded={ !isPlaceholderData }>
-          { data.size.toLocaleString() }
+        <Skeleton isLoaded={!isPlaceholderData}>
+          {data.size.toLocaleString()}
         </Skeleton>
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Timestamp"
         hint="Date & time at which block was produced."
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Icon as={ clockIcon } boxSize={ 5 } color="gray.500" isLoading={ isPlaceholderData }/>
-        <Skeleton isLoaded={ !isPlaceholderData } ml={ 1 }>
-          { dayjs(data.timestamp).fromNow() }
+        <Icon as={clockIcon} boxSize={5} color="gray.500" isLoading={isPlaceholderData} />
+        <Skeleton isLoaded={!isPlaceholderData} ml={1}>
+          {dayjs(data.timestamp).fromNow()}
         </Skeleton>
-        <TextSeparator/>
-        <Skeleton isLoaded={ !isPlaceholderData } whiteSpace="normal">
-          { dayjs(data.timestamp).format('LLLL') }
+        <TextSeparator />
+        <Skeleton isLoaded={!isPlaceholderData} whiteSpace="normal">
+          {dayjs(data.timestamp).format('LLLL')}
         </Skeleton>
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Transactions"
         hint="The number of transactions in the block"
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Skeleton isLoaded={ !isPlaceholderData }>
-          <LinkInternal href={ route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: heightOrHash, tab: 'txs' } }) }>
-            { data.tx_count } transaction{ data.tx_count === 1 ? '' : 's' }
+        <Skeleton isLoaded={!isPlaceholderData}>
+          <LinkInternal href={route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: heightOrHash, tab: 'txs' } })}>
+            {data.tx_count} transaction{data.tx_count === 1 ? '' : 's'}
           </LinkInternal>
         </Skeleton>
       </DetailsInfoItem>
-      { appConfig.beaconChain.hasBeaconChain && Boolean(data.withdrawals_count) && (
+      {appConfig.beaconChain.hasBeaconChain && Boolean(data.withdrawals_count) && (
         <DetailsInfoItem
           title="Withdrawals"
           hint="The number of beacon withdrawals in the block"
-          isLoading={ isPlaceholderData }
+          isLoading={isPlaceholderData}
         >
-          <Skeleton isLoaded={ !isPlaceholderData }>
-            <LinkInternal href={ route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: heightOrHash, tab: 'withdrawals' } }) }>
-              { data.withdrawals_count } withdrawal{ data.withdrawals_count === 1 ? '' : 's' }
+          <Skeleton isLoaded={!isPlaceholderData}>
+            <LinkInternal href={route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: heightOrHash, tab: 'withdrawals' } })}>
+              {data.withdrawals_count} withdrawal{data.withdrawals_count === 1 ? '' : 's'}
             </LinkInternal>
           </Skeleton>
         </DetailsInfoItem>
-      ) }
+      )}
       <DetailsInfoItem
-        title={ appConfig.network.verificationType === 'validation' ? 'Validated by' : 'Mined by' }
+        title={appConfig.network.verificationType === 'validation' ? 'Validated by' : 'Mined by'}
         hint="A block producer who successfully included the block onto the blockchain"
-        columnGap={ 1 }
-        isLoading={ isPlaceholderData }
+        columnGap={1}
+        isLoading={isPlaceholderData}
       >
-        <AddressLink type="address" hash={ data.miner.hash } isLoading={ isPlaceholderData }/>
-        { data.miner.name && <Text>{ `(${ capitalize(validatorTitle) }: ${ data.miner.name })` }</Text> }
-        { /* api doesn't return the block processing time yet */ }
-        { /* <Text>{ dayjs.duration(block.minedIn, 'second').humanize(true) }</Text> */ }
+        <AddressLink type="address" hash={data.miner.hash} isLoading={isPlaceholderData} />
+        {data.miner.name && <Text>{`(${capitalize(validatorTitle)}: ${data.miner.name})`}</Text>}
+        { /* api doesn't return the block processing time yet */}
+        { /* <Text>{ dayjs.duration(block.minedIn, 'second').humanize(true) }</Text> */}
       </DetailsInfoItem>
-      { !appConfig.L2.isL2Network && !totalReward.isEqualTo(ZERO) && (
+      {!appConfig.L2.isL2Network && !totalReward.isEqualTo(ZERO) && (
         <DetailsInfoItem
           title="Block reward"
           hint={
-            `For each block, the ${ validatorTitle } is rewarded with a finite amount of ${ appConfig.network.currency.symbol || 'native token' } 
+            `For each block, the ${validatorTitle} is rewarded with a finite amount of ${appConfig.network.currency.symbol || 'native token'} 
           on top of the fees paid for all transactions in the block`
           }
-          columnGap={ 1 }
-          isLoading={ isPlaceholderData }
+          columnGap={1}
+          isLoading={isPlaceholderData}
         >
-          <Skeleton isLoaded={ !isPlaceholderData }>
-            { totalReward.dividedBy(WEI).toFixed() } { appConfig.network.currency.symbol }
+          <Skeleton isLoaded={!isPlaceholderData}>
+            {totalReward.dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol}
           </Skeleton>
-          { rewardBreakDown }
+          {rewardBreakDown}
         </DetailsInfoItem>
-      ) }
-      { data.rewards
+      )}
+      {data.rewards
         ?.filter(({ type }) => type !== 'Validator Reward' && type !== 'Miner Reward')
         .map(({ type, reward }) => (
           <DetailsInfoItem
-            key={ type }
-            title={ type }
+            key={type}
+            title={type}
             // is this text correct for validators?
-            hint={ `Amount of distributed reward. ${ capitalize(validatorTitle) }s receive a static block reward + Tx fees + uncle fees` }
+            hint={`Amount of distributed reward. ${capitalize(validatorTitle)}s receive a static block reward + Tx fees + uncle fees`}
           >
-            { BigNumber(reward).dividedBy(WEI).toFixed() } { appConfig.network.currency.symbol }
+            {BigNumber(reward).dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol}
           </DetailsInfoItem>
         ))
       }
 
-      { sectionGap }
+      {sectionGap}
 
       <DetailsInfoItem
         title="Gas used"
         hint="The total gas amount used in the block and its percentage of gas filled in the block"
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Skeleton isLoaded={ !isPlaceholderData }>
-          { BigNumber(data.gas_used || 0).toFormat() }
+        <Skeleton isLoaded={!isPlaceholderData}>
+          {BigNumber(data.gas_used || 0).toFormat()}
         </Skeleton>
         <Utilization
-          ml={ 4 }
+          ml={4}
           colorScheme="gray"
-          value={ BigNumber(data.gas_used || 0).dividedBy(BigNumber(data.gas_limit)).toNumber() }
-          isLoading={ isPlaceholderData }
+          value={BigNumber(data.gas_used || 0).dividedBy(BigNumber(data.gas_limit)).toNumber()}
+          isLoading={isPlaceholderData}
         />
-        { data.gas_target_percentage && (
+        {data.gas_target_percentage && (
           <>
-            <TextSeparator color={ separatorColor } mx={ 1 }/>
-            <GasUsedToTargetRatio value={ data.gas_target_percentage } isLoading={ isPlaceholderData }/>
+            <TextSeparator color={separatorColor} mx={1} />
+            <GasUsedToTargetRatio value={data.gas_target_percentage} isLoading={isPlaceholderData} />
           </>
-        ) }
+        )}
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Gas limit"
         hint="Total gas limit provided by all transactions in the block"
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Skeleton isLoaded={ !isPlaceholderData }>
-          { BigNumber(data.gas_limit).toFormat() }
+        <Skeleton isLoaded={!isPlaceholderData}>
+          {BigNumber(data.gas_limit).toFormat()}
         </Skeleton>
       </DetailsInfoItem>
-      { data.base_fee_per_gas && (
+      {data.base_fee_per_gas && (
         <DetailsInfoItem
           title="Base fee per gas"
           hint="Minimum fee required per unit of gas. Fee adjusts based on network congestion"
-          isLoading={ isPlaceholderData }
+          isLoading={isPlaceholderData}
         >
-          { isPlaceholderData ? (
-            <Skeleton isLoaded={ !isPlaceholderData } h="20px" maxW="380px" w="100%"/>
+          {isPlaceholderData ? (
+            <Skeleton isLoaded={!isPlaceholderData} h="20px" maxW="380px" w="100%" />
           ) : (
             <>
-              <Text>{ BigNumber(data.base_fee_per_gas).dividedBy(WEI).toFixed() } { appConfig.network.currency.symbol } </Text>
+              <Text>{BigNumber(data.base_fee_per_gas).dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol} </Text>
               <Text variant="secondary" whiteSpace="pre">
-                { space }({ BigNumber(data.base_fee_per_gas).dividedBy(WEI_IN_GWEI).toFixed() } Gwei)
+                {space}({BigNumber(data.base_fee_per_gas).dividedBy(WEI_IN_GWEI).toFixed()} Gwei)
               </Text>
             </>
-          ) }
+          )}
         </DetailsInfoItem>
-      ) }
+      )}
       <DetailsInfoItem
         title="Burnt fees"
         hint={
-          `Amount of ${ appConfig.network.currency.symbol || 'native token' } burned from transactions included in the block.
+          `Amount of ${appConfig.network.currency.symbol || 'native token'} burned from transactions included in the block.
 
           Equals Block Base Fee per Gas * Gas Used`
         }
-        isLoading={ isPlaceholderData }
+        isLoading={isPlaceholderData}
       >
-        <Icon as={ flameIcon } boxSize={ 5 } color="gray.500" isLoading={ isPlaceholderData }/>
-        <Skeleton isLoaded={ !isPlaceholderData } ml={ 1 }>
-          { burntFees.dividedBy(WEI).toFixed() } { appConfig.network.currency.symbol }
+        <Icon as={flameIcon} boxSize={5} color="gray.500" isLoading={isPlaceholderData} />
+        <Skeleton isLoaded={!isPlaceholderData} ml={1}>
+          {burntFees.dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol}
         </Skeleton>
-        { !txFees.isEqualTo(ZERO) && (
+        {!txFees.isEqualTo(ZERO) && (
           <Tooltip label="Burnt fees / Txn fees * 100%">
             <Box>
               <Utilization
-                ml={ 4 }
-                value={ burntFees.dividedBy(txFees).toNumber() }
-                isLoading={ isPlaceholderData }
+                ml={4}
+                value={burntFees.dividedBy(txFees).toNumber()}
+                isLoading={isPlaceholderData}
               />
             </Box>
           </Tooltip>
-        ) }
+        )}
       </DetailsInfoItem>
-      { data.priority_fee !== null && BigNumber(data.priority_fee).gt(ZERO) && (
+      {data.priority_fee !== null && BigNumber(data.priority_fee).gt(ZERO) && (
         <DetailsInfoItem
           title="Priority fee / Tip"
           hint="User-defined tips sent to validator for transaction priority/inclusion"
-          isLoading={ isPlaceholderData }
+          isLoading={isPlaceholderData}
         >
-          <Skeleton isLoaded={ !isPlaceholderData }>
-            { BigNumber(data.priority_fee).dividedBy(WEI).toFixed() } { appConfig.network.currency.symbol }
+          <Skeleton isLoaded={!isPlaceholderData}>
+            {BigNumber(data.priority_fee).dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol}
           </Skeleton>
         </DetailsInfoItem>
-      ) }
-      { /* api doesn't support extra data yet */ }
+      )}
+      { /* api doesn't support extra data yet */}
       { /* <DetailsInfoItem
         title="Extra data"
         hint={ `Any data that can be included by the ${ validatorTitle } in the block` }
@@ -329,33 +329,33 @@ const BlockDetails = ({ query }: Props) => {
         <Text variant="secondary">(Hex: { data.extra_data })</Text>
       </DetailsInfoItem> */ }
 
-      { /* CUT */ }
+      { /* CUT */}
       <GridItem colSpan={{ base: undefined, lg: 2 }}>
         <Element name="BlockDetails__cutLink">
-          <Skeleton isLoaded={ !isPlaceholderData } mt={ 6 } display="inline-block">
+          <Skeleton isLoaded={!isPlaceholderData} mt={6} display="inline-block">
             <Link
               fontSize="sm"
               textDecorationLine="underline"
               textDecorationStyle="dashed"
-              onClick={ handleCutClick }
+              onClick={handleCutClick}
             >
-              { isExpanded ? 'Hide details' : 'View details' }
+              {isExpanded ? 'Hide details' : 'View details'}
             </Link>
           </Skeleton>
         </Element>
       </GridItem>
 
-      { /* ADDITIONAL INFO */ }
-      { isExpanded && !isPlaceholderData && (
+      { /* ADDITIONAL INFO */}
+      {isExpanded && !isPlaceholderData && (
         <>
-          <GridItem colSpan={{ base: undefined, lg: 2 }} mt={{ base: 1, lg: 4 }}/>
+          <GridItem colSpan={{ base: undefined, lg: 2 }} mt={{ base: 1, lg: 4 }} />
 
           <DetailsInfoItem
             title="Difficulty"
-            hint={ `Block difficulty for ${ validatorTitle }, used to calibrate block generation time` }
+            hint={`Block difficulty for ${validatorTitle}, used to calibrate block generation time`}
           >
             <Box whiteSpace="nowrap" overflow="hidden">
-              <HashStringShortenDynamic hash={ BigNumber(data.difficulty).toFormat() }/>
+              <HashStringShortenDynamic hash={BigNumber(data.difficulty).toFormat()} />
             </Box>
           </DetailsInfoItem>
           <DetailsInfoItem
@@ -363,11 +363,11 @@ const BlockDetails = ({ query }: Props) => {
             hint="Total difficulty of the chain until this block"
           >
             <Box whiteSpace="nowrap" overflow="hidden">
-              <HashStringShortenDynamic hash={ BigNumber(data.total_difficulty).toFormat() }/>
+              <HashStringShortenDynamic hash={BigNumber(data.total_difficulty).toFormat()} />
             </Box>
           </DetailsInfoItem>
 
-          { sectionGap }
+          {sectionGap}
 
           <DetailsInfoItem
             title="Hash"
@@ -375,21 +375,21 @@ const BlockDetails = ({ query }: Props) => {
             flexWrap="nowrap"
           >
             <Box overflow="hidden">
-              <HashStringShortenDynamic hash={ data.hash }/>
+              <HashStringShortenDynamic hash={data.hash} />
             </Box>
-            <CopyToClipboard text={ data.hash }/>
+            <CopyToClipboard text={data.hash} />
           </DetailsInfoItem>
-          { data.height > 0 && (
+          {data.height > 0 && (
             <DetailsInfoItem
               title="Parent hash"
               hint="The hash of the block from which this block was generated"
               flexWrap="nowrap"
             >
-              <AddressLink hash={ data.parent_hash } type="block" blockHeight={ String(data.height - 1) }/>
-              <CopyToClipboard text={ data.parent_hash }/>
+              <AddressLink hash={data.parent_hash} type="block" blockHeight={String(data.height - 1)} />
+              <CopyToClipboard text={data.parent_hash} />
             </DetailsInfoItem>
-          ) }
-          { /* api doesn't support state root yet */ }
+          )}
+          { /* api doesn't support state root yet */}
           { /* <DetailsInfoItem
             title="State root"
             hint="The root of the state trie"
@@ -400,10 +400,10 @@ const BlockDetails = ({ query }: Props) => {
             title="Nonce"
             hint="Block nonce is a value used during mining to demonstrate proof of work for a block"
           >
-            { data.nonce }
+            {data.nonce}
           </DetailsInfoItem>
         </>
-      ) }
+      )}
     </Grid>
   );
 };
