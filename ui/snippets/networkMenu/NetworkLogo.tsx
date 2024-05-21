@@ -1,4 +1,4 @@
-import { Icon, Box, Image, useColorModeValue, Skeleton } from '@chakra-ui/react';
+import { Icon, Box, Image, useColorModeValue, Skeleton, useColorMode } from '@chakra-ui/react';
 import { route } from 'nextjs-routes';
 import React from 'react';
 
@@ -26,21 +26,22 @@ const LogoFallback = ({ isCollapsed, isSmall }: { isCollapsed?: boolean; isSmall
   };
 
   if (appConfig.network[field].default) {
-    return <Skeleton w="100%" borderRadius="sm" display={ display }/>;
+    return <Skeleton w="100%" borderRadius="sm" display={display} />;
   }
 
   return (
     <Icon
-      as={ isSmall ? iconPlaceholder : logoPlaceholder }
+      as={isSmall ? iconPlaceholder : logoPlaceholder}
       width="auto"
       height="100%"
-      color={ logoColor }
-      display={ display }
+      color={logoColor}
+      display={display}
     />
   );
 };
 
 const NetworkLogo = ({ isCollapsed, onClick }: Props) => {
+  const { colorMode } = useColorMode();
 
   const logoSrc = useColorModeValue(appConfig.network.logo.default, appConfig.network.logo.dark || appConfig.network.logo.default);
   const iconSrc = useColorModeValue(appConfig.network.icon.default, appConfig.network.icon.dark || appConfig.network.icon.default);
@@ -52,34 +53,38 @@ const NetworkLogo = ({ isCollapsed, onClick }: Props) => {
     // TODO switch to <NextLink href={ href } passHref> when main page for network will be ready
     <Box
       as="a"
-      href={ route({ pathname: '/' }) }
-      width={{ base: 'auto', lg: isCollapsed === false ? '120px' : '30px', xl: isCollapsed ? '30px' : '120px' }}
-      height={{ base: '20px', lg: isCollapsed === false ? '20px' : '30px', xl: isCollapsed ? '30px' : '20px' }}
+      href={route({ pathname: '/' })}
+      width={{ base: '120px', lg: isCollapsed === false ? '100%' : '60px', xl: isCollapsed ? '60px' : '100%' }}
+      height={{ base: '42px', lg: isCollapsed === false ? '60px' : '60px', xl: isCollapsed ? '60px' : '60px' }}
       display="inline-flex"
       overflow="hidden"
-      onClick={ onClick }
-      flexShrink={ 0 }
+      onClick={onClick}
+      flexShrink={0}
       aria-label="Link to main page"
     >
-      { /* big logo */ }
+      { /* big logo */}
       <Image
-        w="auto"
+        w="100%"
         h="100%"
-        src={ logoSrc }
-        alt={ `${ appConfig.network.name } network logo` }
-        fallback={ <LogoFallback isCollapsed={ isCollapsed }/> }
+        // src={ logoSrc }
+        src={colorMode === "light" ? "/static/black_logo.gif" : "/static/white_logo.gif"}
+        alt={`${appConfig.network.name} network logo`}
+        fallback={<LogoFallback isCollapsed={isCollapsed} />}
         display={{ base: 'block', lg: isCollapsed === false ? 'block' : 'none', xl: isCollapsed ? 'none' : 'block' }}
-        style={ logoStyle }
+        // style={logoStyle}
+        style={{ objectFit: "cover" }}
       />
-      { /* small logo */ }
+      { /* small logo */}
       <Image
-        w="auto"
+        w="100%"
         h="100%"
-        src={ iconSrc }
-        alt={ `${ appConfig.network.name } network logo` }
-        fallback={ <LogoFallback isCollapsed={ isCollapsed } isSmall/> }
+        // src={ iconSrc }
+        src="/static/common_logo.png"
+        alt={`${appConfig.network.name} network logo`}
+        fallback={<LogoFallback isCollapsed={isCollapsed} isSmall />}
         display={{ base: 'none', lg: isCollapsed === false ? 'none' : 'block', xl: isCollapsed ? 'block' : 'none' }}
-        style={ iconStyle }
+        // style={iconStyle}
+        style={{ objectFit: "cover" }}
       />
     </Box>
   );

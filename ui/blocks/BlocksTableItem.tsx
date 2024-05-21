@@ -22,9 +22,10 @@ interface Props {
   data: Block;
   isLoading?: boolean;
   enableTimeIncrement?: boolean;
+  reward:any
 }
 
-const BlocksTableItem = ({ data, isLoading, enableTimeIncrement }: Props) => {
+const BlocksTableItem = ({ data, isLoading, enableTimeIncrement,reward }: Props) => {
   const totalReward = getBlockTotalReward(data);
   const burntFees = BigNumber(data.burnt_fees || 0);
   const txFees = BigNumber(data.tx_fees || 0);
@@ -111,7 +112,7 @@ const BlocksTableItem = ({ data, isLoading, enableTimeIncrement }: Props) => {
       ) }
       <Td fontSize="sm">
         <Skeleton isLoaded={ !isLoading } display="inline-block">
-          { totalReward.toFixed(8) }
+          { Number(reward).toFixed(8) }
         </Skeleton>
       </Td>
       { !appConfig.L2.isL2Network && (

@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useConfigSentry();
 
-  const [ queryClient ] = useState(() => new QueryClient({
+  const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
       <AppError
-        statusCode={ statusCode || 500 }
+        statusCode={statusCode || 500}
         height="100vh"
         display="flex"
         flexDirection="column"
@@ -63,17 +63,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ChakraProvider theme={ theme } cookies={ pageProps.cookies }>
-      <ErrorBoundary renderErrorScreen={ renderErrorScreen } onError={ handleError }>
-        <AppContextProvider pageProps={ pageProps }>
-          <QueryClientProvider client={ queryClient }>
+    <ChakraProvider theme={theme} cookies={pageProps.cookies}>
+      <ErrorBoundary renderErrorScreen={renderErrorScreen} onError={handleError}>
+        <AppContextProvider pageProps={pageProps}>
+          <QueryClientProvider client={queryClient}>
             <ScrollDirectionProvider>
-              <SocketProvider url={ `${ appConfig.api.socket }${ appConfig.api.basePath }/socket/v2` }>
-                <Component { ...pageProps }/>
+              <SocketProvider url={`${appConfig.api.socket}${appConfig.api.basePath}/socket/v2`}>
+                <Component {...pageProps} />
               </SocketProvider>
             </ScrollDirectionProvider>
-            <ReactQueryDevtools/>
-            <GoogleAnalytics/>
+            {/* <ReactQueryDevtools/> */}
+            <GoogleAnalytics />
           </QueryClientProvider>
         </AppContextProvider>
       </ErrorBoundary>

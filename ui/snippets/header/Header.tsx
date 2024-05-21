@@ -20,54 +20,54 @@ const Header = ({ isHomePage, renderSearchBar }: Props) => {
   const bgColor = useColorModeValue('white', 'black');
   const scrollDirection = useScrollDirection();
 
-  const searchBar = renderSearchBar ? renderSearchBar() : <SearchBar/>;
+  const searchBar = renderSearchBar ? renderSearchBar() : <SearchBar />;
 
   return (
     <>
-      <Box bgColor={ bgColor } display={{ base: 'block', lg: 'none' }}>
+      <Box bgColor={bgColor} display={{ base: 'block', lg: 'none' }}>
         <Flex
           as="header"
           position="fixed"
-          top={ 0 }
-          left={ 0 }
-          paddingX={ 4 }
-          paddingY={ 2 }
-          bgColor={ bgColor }
+          top={0}
+          left={0}
+          paddingX={4}
+          paddingY={2}
+          bgColor={bgColor}
           width="100%"
           alignItems="center"
           justifyContent="space-between"
           zIndex="sticky2"
           transitionProperty="box-shadow"
           transitionDuration="slow"
-          boxShadow={ scrollDirection === 'down' ? 'md' : 'none' }
+          boxShadow={scrollDirection === 'down' ? 'md' : 'none'}
         >
-          <Burger/>
-          <NetworkLogo/>
-          { appConfig.isAccountSupported ? <ProfileMenuMobile/> : <Box boxSize={ 10 }/> }
+          <Burger />
+          <NetworkLogo />
+          {appConfig.isAccountSupported ? <ProfileMenuMobile /> : <Box boxSize={10} />}
         </Flex>
-        { !isHomePage && searchBar }
+        {!isHomePage && searchBar}
       </Box>
       <Box
-        paddingX={ 12 }
-        paddingTop={ 9 }
+        paddingX={12}
+        paddingTop={9}
         display={{ base: 'none', lg: 'block' }}
       >
-        { !appConfig.hideIndexingAlert && <IndexingAlert/> }
-        { !isHomePage && (
+        {!appConfig.hideIndexingAlert && <IndexingAlert />}
+        {!isHomePage && (
           <HStack
             as="header"
             width="100%"
             alignItems="center"
             justifyContent="center"
-            gap={ 12 }
+            gap={12}
             paddingBottom="52px"
           >
             <Box width="100%">
-              { searchBar }
+              {searchBar}
             </Box>
-            { appConfig.isAccountSupported && <ProfileMenuDesktop/> }
+            {/* {appConfig.isAccountSupported && <ProfileMenuDesktop />} */}
           </HStack>
-        ) }
+        )}
       </Box>
     </>
   );

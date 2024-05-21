@@ -23,13 +23,14 @@ type Props = {
   block: Block;
   h: number;
   isLoading?: boolean;
+  reward: any
 }
 
-const LatestBlocksItem = ({ block, h, isLoading }: Props) => {
+const LatestBlocksItem = ({ block, h, isLoading, reward }: Props) => {
   const totalReward = getBlockTotalReward(block);
   return (
     <Box
-      as={ motion.div }
+      as={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transitionDuration="normal"
@@ -37,37 +38,37 @@ const LatestBlocksItem = ({ block, h, isLoading }: Props) => {
       borderRadius="12px"
       border="1px solid"
       borderColor="divider"
-      p={ 6 }
-      h={ `${ h }px` }
+      p={6}
+      h={`${h}px`}
       minWidth={{ base: '100%', lg: '280px' }}
     >
-      <Flex justifyContent="space-between" alignItems="center" mb={ 3 }>
-        <HStack spacing={ 2 }>
-          <Icon as={ blockIcon } boxSize="30px" color="link" isLoading={ isLoading } borderRadius="base"/>
+      <Flex justifyContent="space-between" alignItems="center" mb={3}>
+        <HStack spacing={2}>
+          <Icon as={blockIcon} boxSize="30px" color="link" isLoading={isLoading} borderRadius="base" />
           <LinkInternal
-            href={ route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: String(block.height) } }) }
+            href={route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: String(block.height) } })}
             fontSize="xl"
             fontWeight="500"
-            isLoading={ isLoading }
+            isLoading={isLoading}
           >
-            <Skeleton isLoaded={ !isLoading }>
-              { block.height }
+            <Skeleton isLoaded={!isLoading}>
+              {block.height}
             </Skeleton>
           </LinkInternal>
         </HStack>
-        <BlockTimestamp ts={ block.timestamp } isEnabled={ !isLoading } isLoading={ isLoading } fontSize="sm"/>
+        <BlockTimestamp ts={block.timestamp} isEnabled={!isLoading} isLoading={isLoading} fontSize="sm" />
       </Flex>
-      <Grid gridGap={ 2 } templateColumns="auto minmax(0, 1fr)" fontSize="sm">
-        <Skeleton isLoaded={ !isLoading }>Txn</Skeleton>
-        <Skeleton isLoaded={ !isLoading } color="text_secondary"><span>{ block.tx_count }</span></Skeleton>
-        { !appConfig.L2.isL2Network && (
+      <Grid gridGap={2} templateColumns="auto minmax(0, 1fr)" fontSize="sm">
+        <Skeleton isLoaded={!isLoading}>Txn</Skeleton>
+        <Skeleton isLoaded={!isLoading} color="text_secondary"><span>{block.tx_count}</span></Skeleton>
+        {!appConfig.L2.isL2Network && (
           <>
-            <Skeleton isLoaded={ !isLoading }>Reward</Skeleton>
-            <Skeleton isLoaded={ !isLoading } color="text_secondary"><span>{ totalReward.toFixed() }</span></Skeleton>
-            <Skeleton isLoaded={ !isLoading }>Miner</Skeleton>
-            <AddressLink type="address" alias={ block.miner.name } hash={ block.miner.hash } truncation="constant" maxW="100%" isLoading={ isLoading }/>
+            <Skeleton isLoaded={!isLoading}>Reward</Skeleton>
+            <Skeleton isLoaded={!isLoading} color="text_secondary"><span>{Number(reward).toFixed(8)} Taral</span></Skeleton>
+            <Skeleton isLoaded={!isLoading}>Miner</Skeleton>
+            <AddressLink type="address" alias={block.miner.name} hash={block.miner.hash} truncation="constant" maxW="100%" isLoading={isLoading} />
           </>
-        ) }
+        )}
       </Grid>
     </Box>
   );

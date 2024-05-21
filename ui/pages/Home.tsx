@@ -16,7 +16,7 @@ const Home = () => {
     <Page isHomePage>
       <Box
         w="100%"
-        background={ appConfig.homepage.plate.background }
+        background={appConfig.homepage.plate.background}
         borderRadius="24px"
         padding={{ base: '24px', lg: '48px' }}
         minW={{ base: 'unset', lg: '900px' }}
@@ -27,26 +27,26 @@ const Home = () => {
             as="h1"
             size={{ base: 'md', lg: 'xl' }}
             lineHeight={{ base: '32px', lg: '50px' }}
-            fontWeight={ 600 }
-            color={ appConfig.homepage.plate.textColor }
+            fontWeight={600}
+            color={appConfig.homepage.plate.textColor}
           >
-            Welcome to { appConfig.network.name } explorer
+            Welcome to {appConfig.network.name} explorer
           </Heading>
-          <Box display={{ base: 'none', lg: 'block' }}>
-            { appConfig.isAccountSupported && <ProfileMenuDesktop/> }
-          </Box>
+          {/* <Box display={{ base: 'none', lg: 'block' }}>
+            {appConfig.isAccountSupported && <ProfileMenuDesktop />}
+          </Box> */}
         </Flex>
         <LightMode>
-          <SearchBar isHomepage/>
+          <SearchBar isHomepage />
         </LightMode>
       </Box>
-      <Stats/>
-      <ChainIndicators/>
-      <AdBanner mt={{ base: 6, lg: 8 }} mx="auto" display="flex" justifyContent="center"/>
-      <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
-        <LatestBlocks/>
-        <Box flexGrow={ 1 }>
-          <Transactions/>
+      <Stats />
+      <ChainIndicators />
+      {/* <AdBanner mt={{ base: 6, lg: 8 }} mx="auto" display="flex" justifyContent="center"/> */}
+      <Flex mt={8} direction={{ base: 'column', lg: 'row' }} columnGap={12} rowGap={8}>
+        <LatestBlocks />
+        <Box flexGrow={1}>
+          <Transactions />
         </Box>
       </Flex>
     </Page>

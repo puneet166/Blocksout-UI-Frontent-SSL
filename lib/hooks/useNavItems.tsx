@@ -71,17 +71,17 @@ export default function useNavItems(): ReturnType {
       isActive: pathname === '/txs' || pathname === '/tx/[hash]',
     };
     const verifiedContracts =
-    // eslint-disable-next-line max-len
-     { text: 'Verified contracts', nextRoute: { pathname: '/verified-contracts' as const }, icon: verifiedIcon, isActive: pathname === '/verified-contracts' };
+      // eslint-disable-next-line max-len
+      { text: 'Verified contracts', nextRoute: { pathname: '/verified-contracts' as const }, icon: verifiedIcon, isActive: pathname === '/verified-contracts' };
 
     if (appConfig.L2.isL2Network) {
       blockchainNavItems = [
         [
           txs,
           // eslint-disable-next-line max-len
-          { text: `Deposits (L1${ rightLineArrow }L2)`, nextRoute: { pathname: '/l2-deposits' as const }, icon: depositsIcon, isActive: pathname === '/l2-deposits' },
+          { text: `Deposits (L1${rightLineArrow}L2)`, nextRoute: { pathname: '/l2-deposits' as const }, icon: depositsIcon, isActive: pathname === '/l2-deposits' },
           // eslint-disable-next-line max-len
-          { text: `Withdrawals (L2${ rightLineArrow }L1)`, nextRoute: { pathname: '/l2-withdrawals' as const }, icon: withdrawalsIcon, isActive: pathname === '/l2-withdrawals' },
+          { text: `Withdrawals (L2${rightLineArrow}L1)`, nextRoute: { pathname: '/l2-withdrawals' as const }, icon: withdrawalsIcon, isActive: pathname === '/l2-withdrawals' },
         ],
         [
           blocks,
@@ -123,16 +123,16 @@ export default function useNavItems(): ReturnType {
         icon: graphQLIcon,
         isActive: pathname === '/graphiql',
       },
-      {
-        text: 'RPC API',
-        icon: rpcIcon,
-        url: 'https://docs.blockscout.com/for-users/api/rpc-endpoints',
-      },
-      {
-        text: 'Eth RPC API',
-        icon: rpcIcon,
-        url: ' https://docs.blockscout.com/for-users/api/eth-rpc',
-      },
+      // {
+      //   text: 'RPC API',
+      //   icon: rpcIcon,
+      //   url: 'https://docs.blockscout.com/for-users/api/rpc-endpoints',
+      // },
+      // {
+      //   text: 'Eth RPC API',
+      //   icon: rpcIcon,
+      //   url: ' https://docs.blockscout.com/for-users/api/eth-rpc',
+      // },
     ].filter(Boolean);
 
     const mainNavItems = [
@@ -218,5 +218,5 @@ export default function useNavItems(): ReturnType {
     };
 
     return { mainNavItems, accountNavItems, profileItem };
-  }, [ hasAPIDocs, isMarketplaceAvailable, pathname ]);
+  }, [hasAPIDocs, isMarketplaceAvailable, pathname]);
 }
