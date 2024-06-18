@@ -15,11 +15,11 @@ const AddressPage: NextPage<RoutedQuery<'/address/[hash]'>> = ({ hash }: RoutedQ
   return (
     <>
       <Head>
-        <title>{ title }</title>
-        <meta name="description" content={ description }/>
+        <title>{title}</title>
+        <meta name="description" content={description} />
       </Head>
       <Page>
-        <Address/>
+        <Address />
       </Page>
     </>
   );

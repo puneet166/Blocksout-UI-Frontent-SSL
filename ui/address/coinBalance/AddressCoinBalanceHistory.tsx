@@ -24,56 +24,56 @@ const AddressCoinBalanceHistory = ({ query }: Props) => {
 
   const content = query.data?.items ? (
     <>
-      <Hide below="lg" ssr={ false }>
+      <Hide below="lg" ssr={false}>
         <Table variant="simple" size="sm">
-          <Thead top={ query.pagination.isVisible ? 80 : 0 }>
+          <Thead top={query.pagination.isVisible ? 80 : 0}>
             <Tr>
               <Th width="20%">Block</Th>
               <Th width="20%">Txn</Th>
               <Th width="20%">Age</Th>
-              <Th width="20%" isNumeric pr={ 1 }>Balance { appConfig.network.currency.symbol }</Th>
+              <Th width="20%" isNumeric pr={1}>Balance {appConfig.network.currency.symbol}</Th>
               <Th width="20%" isNumeric>Delta</Th>
             </Tr>
           </Thead>
           <Tbody>
-            { query.data.items.map((item, index) => (
+            {query && query.data && query.data.items && query.data.items.map((item, index) => (
               <AddressCoinBalanceTableItem
-                key={ item.block_number + (query.isPlaceholderData ? String(index) : '') }
-                { ...item }
-                page={ query.pagination.page }
-                isLoading={ query.isPlaceholderData }
+                key={item.block_number + (query.isPlaceholderData ? String(index) : '')}
+                {...item}
+                page={query.pagination.page}
+                isLoading={query.isPlaceholderData}
               />
-            )) }
+            ))}
           </Tbody>
         </Table>
       </Hide>
-      <Show below="lg" ssr={ false }>
-        { query.data.items.map((item, index) => (
+      <Show below="lg" ssr={false}>
+        {query && query.data && query.data.items && query.data.items.map((item, index) => (
           <AddressCoinBalanceListItem
-            key={ item.block_number + (query.isPlaceholderData ? String(index) : '') }
-            { ...item }
-            page={ query.pagination.page }
-            isLoading={ query.isPlaceholderData }
+            key={item.block_number + (query.isPlaceholderData ? String(index) : '')}
+            {...item}
+            page={query.pagination.page}
+            isLoading={query.isPlaceholderData}
           />
-        )) }
+        ))}
       </Show>
     </>
   ) : null;
 
   const actionBar = query.pagination.isVisible ? (
-    <ActionBar mt={ -6 }>
-      <Pagination ml="auto" { ...query.pagination }/>
+    <ActionBar mt={-6}>
+      <Pagination ml="auto" {...query.pagination} />
     </ActionBar>
   ) : null;
 
   return (
     <DataListDisplay
-      mt={ 8 }
-      isError={ query.isError }
-      items={ query.data?.items }
+      mt={8}
+      isError={query.isError}
+      items={query.data?.items}
       emptyText="There is no coin balance history for this address."
-      content={ content }
-      actionBar={ actionBar }
+      content={content}
+      actionBar={actionBar}
     />
   );
 };

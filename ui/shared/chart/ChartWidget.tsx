@@ -109,7 +109,8 @@ const ChartWidget = ({ items, title, description, isLoading, className, isError,
     }
   }, [items, title]);
 
-  const hasItems = items && items.length > 2;
+  const hasItems = items && items.length > 0;
+  console.log(">>>>>>>>>>>hasItems", hasItems);
 
   const content = (() => {
     if (isError) {

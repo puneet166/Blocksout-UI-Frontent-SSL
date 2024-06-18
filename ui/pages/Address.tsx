@@ -87,7 +87,7 @@ const AddressPageContent = () => {
           return 'Contract';
         },
         component: <AddressContract tabs={contractTabs} />,
-        subTabs: contractTabs.map(tab => tab.id),
+        subTabs: contractTabs && contractTabs?.map(tab => tab?.id),
       } : undefined,
     ].filter(Boolean);
   }, [addressQuery.data, contractTabs]);

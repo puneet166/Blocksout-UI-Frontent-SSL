@@ -21,6 +21,7 @@ import useToast from 'lib/hooks/useToast';
 import useProvider from 'lib/web3/useProvider';
 import ColorModeToggler from '../header/ColorModeToggler';
 import FooterLinkItem from './FooterLinkItem';
+import { addRpcChain } from './metamask';
 
 const MAX_LINKS_COLUMNS = 3;
 
@@ -71,6 +72,46 @@ const Footer = () => {
     });
   const toast = useToast();
   const provider = useProvider();
+  const hexadecimalChainId = '0x' + Number(appConfig.network.id).toString(16);
+  const chainParams = {
+    chainId: hexadecimalChainId,
+    chainName: appConfig.network.name,
+    nativeCurrency: {
+      name: appConfig.network.currency.name,
+      symbol: appConfig.network.currency.symbol,
+      decimals: appConfig.network.currency.decimals,
+    },
+    rpcUrls: [appConfig.network.rpcUrl],
+    blockExplorerUrls: [appConfig.baseUrl],
+  };
+  const handleAddChain = async () => {
+    try {
+      const result = await addRpcChain(chainParams);
+      console.log(">>>>>>result", result);
+      let check = result === "Chain is already added" ? false : true
+      toast({
+        position: 'top-right',
+        title: !check ? 'Error' : 'Success',
+        description: result,
+        status: !check ? 'error' : 'success',
+        variant: 'subtle',
+        isClosable: true,
+      });
+      // setStatus(result);
+    } catch (error) {
+      console.log(">>>>>>result", error);
+      toast({
+        position: 'top-right',
+        title: 'Error',
+        description: (error as Error)?.message || 'Something went wrong',
+        status: 'error',
+        variant: 'subtle',
+        isClosable: true,
+      });
+      // setStatus('Error adding chain');
+    }
+  };
+
   const handleClick = React.useCallback(async () => {
     try {
       const hexadecimalChainId = '0x' + Number(appConfig.network.id).toString(16);
@@ -131,10 +172,10 @@ const Footer = () => {
         </Text>
 
         <VStack spacing={1} mt={6} alignItems="start">
-          {/* <NetworkAddToWallet ml={8} />
-          <Button variant="outline" size="sm" onClick={handleClick}>
+          {/* <NetworkAddToWallet ml={8} /> */}
+          <Button variant="outline" size="sm" onClick={handleAddChain}>
             <Icon as={WALLETS_INFO[defaultWallet].icon} boxSize={5} mr={2} />
-            Add {appConfig.network.name}</Button> */}
+            Add {appConfig.network.name}</Button>
         </VStack>
       </Box>
       <Grid
