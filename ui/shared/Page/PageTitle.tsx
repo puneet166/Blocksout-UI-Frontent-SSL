@@ -24,25 +24,25 @@ const BackLink = (props: BackLinkProp & { isLoading?: boolean }) => {
   }
 
   if (props.isLoading) {
-    return <Skeleton boxSize={ 6 } display="inline-block" borderRadius="base" mr={ 3 } my={ 2 } verticalAlign="text-bottom" isLoaded={ !props.isLoading }/>;
+    return <Skeleton boxSize={6} display="inline-block" borderRadius="base" mr={3} my={2} verticalAlign="text-bottom" isLoaded={!props.isLoading} />;
   }
 
-  const icon = <Icon as={ eastArrowIcon } boxSize={ 6 } transform="rotate(180deg)" margin="auto"/>;
+  const icon = <Icon as={eastArrowIcon} boxSize={6} transform="rotate(180deg)" margin="auto" />;
 
   if ('url' in props) {
     return (
-      <Tooltip label={ props.label }>
-        <LinkInternal display="inline-flex" href={ props.url } h="40px" mr={ 3 }>
-          { icon }
+      <Tooltip label={props.label}>
+        <LinkInternal display="inline-flex" href={props.url} h="40px" mr={3}>
+          {icon}
         </LinkInternal>
       </Tooltip>
     );
   }
 
   return (
-    <Tooltip label={ props.label }>
-      <Link display="inline-flex" onClick={ props.onClick } h="40px" mr={ 3 }>
-        { icon }
+    <Tooltip label={props.label}>
+      <Link display="inline-flex" onClick={props.onClick} h="40px" mr={3}>
+        {icon}
       </Link>
     </Tooltip>
   );
@@ -51,21 +51,21 @@ const BackLink = (props: BackLinkProp & { isLoading?: boolean }) => {
 const PageTitle = ({ title, contentAfter, withTextAd, backLink, className, isLoading, afterTitle, beforeTitle }: Props) => {
   return (
     <Flex
-      className={ className }
-      mb={ 6 }
+      className={className}
+      mb={6}
       flexDir="row"
       flexWrap="wrap"
-      rowGap={ 3 }
-      columnGap={ 3 }
+      rowGap={3}
+      columnGap={3}
       alignItems="center"
     >
       <Box h={{ base: 'auto', lg: isLoading ? 10 : 'auto' }}>
-        { backLink && <BackLink { ...backLink } isLoading={ isLoading }/> }
-        { beforeTitle }
+        {backLink && <BackLink {...backLink} isLoading={isLoading} />}
+        {beforeTitle}
         <Skeleton
-          isLoaded={ !isLoading }
+          isLoaded={!isLoading}
           display={{ base: 'inline', lg: isLoading ? 'inline-block' : 'inline' }}
-          verticalAlign={ isLoading ? 'super' : undefined }
+          verticalAlign={isLoading ? 'super' : undefined}
         >
           <Heading
             as="h1"
@@ -74,13 +74,13 @@ const PageTitle = ({ title, contentAfter, withTextAd, backLink, className, isLoa
             wordBreak="break-word"
             w="100%"
           >
-            { title }
+            {title}
           </Heading>
         </Skeleton>
-        { afterTitle }
+        {afterTitle}
       </Box>
-      { contentAfter }
-      { withTextAd && <TextAd order={{ base: -1, lg: 100 }} mb={{ base: 6, lg: 0 }} ml="auto" w={{ base: '100%', lg: 'auto' }}/> }
+      {contentAfter}
+      {/* { withTextAd && <TextAd order={{ base: -1, lg: 100 }} mb={{ base: 6, lg: 0 }} ml="auto" w={{ base: '100%', lg: 'auto' }}/> } */}
     </Flex>
   );
 };

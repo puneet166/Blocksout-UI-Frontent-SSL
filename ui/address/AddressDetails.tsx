@@ -32,6 +32,7 @@ interface Props {
 
 const AddressDetails = ({ addressQuery, scrollRef }: Props) => {
   const router = useRouter();
+  console.log(">>>>>>>>>>>>>>>addressQuery", addressQuery.data);
 
   const addressHash = getQueryParamString(router.query.hash);
 
@@ -42,6 +43,9 @@ const AddressDetails = ({ addressQuery, scrollRef }: Props) => {
       placeholderData: ADDRESS_COUNTERS,
     },
   });
+
+  console.log(">>>>>>>>>>>countersQuery", countersQuery.data);
+
 
   const handleCounterItemClick = React.useCallback(() => {
     window.setTimeout(() => {

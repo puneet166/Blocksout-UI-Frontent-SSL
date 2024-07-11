@@ -6,8 +6,8 @@ import TokensList from 'ui/tokens/Tokens';
 const Tokens = () => {
   return (
     <>
-      <PageTitle title="Tokens" withTextAd/>
-      <TokensList/>
+      <PageTitle title="Tokens" withTextAd />
+      <TokensList />
     </>
   );
 };

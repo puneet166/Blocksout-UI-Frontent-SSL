@@ -15,6 +15,7 @@ import PageContent from 'ui/shared/Page/PageContent';
 import Footer from 'ui/snippets/footer/Footer';
 import Header from 'ui/snippets/header/Header';
 import NavigationDesktop from 'ui/snippets/navigation/NavigationDesktop';
+import MainTopHeader from 'ui/snippets/header/MainTopHeader';
 
 interface Props {
   children: React.ReactNode;
@@ -49,45 +50,49 @@ const Page = ({
     const isUnverifiedEmail = statusCode === 403 && messageInPayload?.includes('Unverified email');
 
     if (isInvalidTxHash) {
-      return <PageContent isHomePage={ isHomePage }><AppErrorInvalidTxHash/></PageContent>;
+      return <PageContent isHomePage={isHomePage}><AppErrorInvalidTxHash /></PageContent>;
     }
 
     if (isUnverifiedEmail) {
       const email = resourceErrorPayload && 'email' in resourceErrorPayload && typeof resourceErrorPayload.email === 'string' ?
         resourceErrorPayload.email :
         undefined;
-      return <PageContent isHomePage={ isHomePage }><AppErrorUnverifiedEmail mt="50px" email={ email }/></PageContent>;
+      return <PageContent isHomePage={isHomePage}><AppErrorUnverifiedEmail mt="50px" email={email} /></PageContent>;
     }
 
     if (isBlockConsensus) {
       const hash = resourceErrorPayload && 'hash' in resourceErrorPayload && typeof resourceErrorPayload.hash === 'string' ?
         resourceErrorPayload.hash :
         undefined;
-      return <PageContent isHomePage={ isHomePage }><AppErrorBlockConsensus hash={ hash } mt="50px"/></PageContent>;
+      return <PageContent isHomePage={isHomePage}><AppErrorBlockConsensus hash={hash} mt="50px" /></PageContent>;
     }
 
-    return <PageContent isHomePage={ isHomePage }><AppError statusCode={ statusCode } mt="50px"/></PageContent>;
-  }, [ isHomePage ]);
+    return <PageContent isHomePage={isHomePage}><AppError statusCode={statusCode} mt="50px" /></PageContent>;
+  }, [isHomePage]);
 
   const renderedChildren = wrapChildren ? (
-    <PageContent isHomePage={ isHomePage }>{ children }</PageContent>
+    <PageContent isHomePage={isHomePage}>{children}</PageContent>
   ) : children;
+  console.log(">>>>>renderHeader", renderHeader);
 
   return (
     <Box minWidth={{ base: '100vw', lg: 'fit-content' }}>
       <Flex w="100%" minH="100vh" alignItems="stretch">
-        <NavigationDesktop/>
-        <Flex flexDir="column" flexGrow={ 1 } w={{ base: '100%', lg: 'auto' }}>
-          { renderHeader ?
+        {/* <NavigationDesktop/> */}
+
+        <Flex flexDir="column" flexGrow={1} w={{ base: '100%', lg: 'auto' }}>
+          <MainTopHeader />
+          {renderHeader ?
             renderHeader() :
-            <Header isHomePage={ isHomePage }/>
+            <Header isHomePage={isHomePage} />
           }
-          <ErrorBoundary renderErrorScreen={ renderErrorScreen }>
-            { renderedChildren }
+
+          <ErrorBoundary renderErrorScreen={renderErrorScreen}>
+            {renderedChildren}
           </ErrorBoundary>
         </Flex>
       </Flex>
-      <Footer/>
+      <Footer />
     </Box>
   );
 };

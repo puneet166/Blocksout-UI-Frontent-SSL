@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import capitalize from 'lodash/capitalize';
 import { useRouter } from 'next/router';
 import { route } from 'nextjs-routes';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { scroller, Element } from 'react-scroll';
 
 import type { Block } from 'types/api/block';
@@ -30,17 +30,59 @@ import LinkInternal from 'ui/shared/LinkInternal';
 import PrevNext from 'ui/shared/PrevNext';
 import TextSeparator from 'ui/shared/TextSeparator';
 import Utilization from 'ui/shared/Utilization/Utilization';
+import axios from 'axios';
+import { weiToEth } from 'ui/home/indicators/eth_conversion';
+import Address from 'ui/shared/address/Address';
 
 interface Props {
   query: UseQueryResult<Block, ResourceError>;
+}
+const ETH_RPC_URL = 'https://devnet-taral-rpc1.tarality.com';
+
+interface EthRpcResponse {
+  id: number;
+  jsonrpc: string;
+  result: any;
 }
 
 const BlockDetails = ({ query }: Props) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const router = useRouter();
   const heightOrHash = getQueryParamString(router.query.height_or_hash);
-
+  const [reward, setReward] = React.useState(0)
   const separatorColor = useColorModeValue('gray.200', 'gray.700');
+
+  const getLatestBlock = async (idd: any): Promise<EthRpcResponse> => {
+    try {
+      const response = await axios.post<EthRpcResponse>(ETH_RPC_URL, {
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'eth_getBlockByNumber',
+        params: [idd], // Include full transaction objects (second param is 'true')
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(">>>>>>>response?.data?.result?.BlockReward", response.data);
+
+      setReward(weiToEth(response?.data?.result?.BlockReward))
+      return response.data;
+    } catch (error) {
+
+      console.error('Error fetching the latest block:', error);
+      throw new Error('Failed to fetch the latest block');
+    }
+  };
+
+  useEffect(() => {
+    console.log(">>>>>heightOrHash", heightOrHash);
+
+    if (heightOrHash) {
+
+      getLatestBlock(heightOrHash)
+    }
+  }, [heightOrHash])
 
   const { data, isPlaceholderData, isError, error } = query;
 
@@ -100,6 +142,8 @@ const BlockDetails = ({ query }: Props) => {
     if (isPlaceholderData) {
       return <Skeleton w="525px" h="20px" />;
     }
+
+
 
     return (
       <Text variant="secondary" whiteSpace="break-spaces">
@@ -178,6 +222,17 @@ const BlockDetails = ({ query }: Props) => {
           <LinkInternal href={route({ pathname: '/block/[height_or_hash]', query: { height_or_hash: heightOrHash, tab: 'txs' } })}>
             {data.tx_count} transaction{data.tx_count === 1 ? '' : 's'}
           </LinkInternal>
+        </Skeleton>
+      </DetailsInfoItem>
+      <DetailsInfoItem
+        title="Block Reward"
+        hint="Block per reward"
+        isLoading={isPlaceholderData}
+      >
+        <Skeleton isLoaded={!isPlaceholderData}>
+
+          {Number(reward).toFixed(8)} Taral
+
         </Skeleton>
       </DetailsInfoItem>
       {appConfig.beaconChain.hasBeaconChain && Boolean(data.withdrawals_count) && (
@@ -295,8 +350,14 @@ const BlockDetails = ({ query }: Props) => {
       >
         <Icon as={flameIcon} boxSize={5} color="gray.500" isLoading={isPlaceholderData} />
         <Skeleton isLoaded={!isPlaceholderData} ml={1}>
-          {burntFees.dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol}
+          {burntFees.dividedBy(WEI).toFixed()} {appConfig.network.currency.symbol} to
+
         </Skeleton>
+        <Address>
+
+          <AddressLink type="address" ml={2} hash="0x0000000000000000000000000000000000000000" truncation="constant" maxW="100%" />
+          <CopyToClipboard text="0x0000000000000000000000000000000000000000" isLoading={isPlaceholderData} />
+        </Address>
         {!txFees.isEqualTo(ZERO) && (
           <Tooltip label="Burnt fees / Txn fees * 100%">
             <Box>

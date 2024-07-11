@@ -27,6 +27,10 @@ const oldUrls = [
     oldPath: '/uncles',
     newPath: '/blocks?tab=uncles',
   },
+  // {
+  //   oldPath: '/validators',
+  //   newPath: '/validators',
+  // },
   {
     oldPath: '/reorgs',
     newPath: '/blocks?tab=reorgs',

@@ -356,10 +356,31 @@ const TxDetails = () => {
             <Icon as={flameIcon} mr={1} boxSize={5} color="gray.500" />
             <CurrencyValue
               value={String(data.tx_burnt_fee)}
-              currency={appConfig.network.currency.symbol}
+              currency={`${appConfig.network.currency.symbol} to `}
               exchangeRate={data.exchange_rate}
               flexWrap="wrap"
             />
+
+            <Address>
+
+              <AddressLink type="address" ml={2} hash="0x0000000000000000000000000000000000000000" truncation="constant" maxW="100%" />
+              <CopyToClipboard text="0x0000000000000000000000000000000000000000" isLoading={isPlaceholderData} />
+            </Address>
+          </DetailsInfoItem>
+        )}
+        {data.tx_burnt_fee && !appConfig.L2.isL2Network && (
+          <DetailsInfoItem
+            title="Validator Gas Fee Reward"
+            hint={`Priority fee * gaslimit , tx reward for validator`}
+          >
+
+            <CurrencyValue
+              value={Number(data.fee.value) - Number(data.tx_burnt_fee)}
+              currency={`${appConfig.network.currency.symbol}   `}
+              exchangeRate={data.exchange_rate}
+              flexWrap="wrap"
+            />
+
           </DetailsInfoItem>
         )}
         {appConfig.L2.isL2Network && (

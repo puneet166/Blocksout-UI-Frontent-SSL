@@ -21,7 +21,10 @@ export default function useApiQuery<R extends ResourceName, E = unknown>(
   resource: R,
   { queryOptions, pathParams, queryParams, fetchParams }: Params<R, E> = {},
 ) {
+  console.log(">>>>>>>>>>>>>pathParams", pathParams, queryOptions);
+
   const apiFetch = useApiFetch();
+  console.log(">>>>>>>>>>>>.apiFetch", apiFetch);
 
 
   return useQuery<ResourcePayload<R>, ResourceError<E>, ResourcePayload<R>>(

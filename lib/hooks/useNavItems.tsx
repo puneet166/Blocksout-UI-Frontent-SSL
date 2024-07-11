@@ -148,6 +148,12 @@ export default function useNavItems(): ReturnType {
         icon: tokensIcon,
         isActive: pathname.startsWith('/token'),
       },
+      {
+        text: 'Validators',
+        nextRoute: { pathname: '/validators' as const },
+        icon: tokensIcon,
+        isActive: pathname.startsWith('/validators'),
+      },
       isMarketplaceAvailable ? {
         text: 'Apps',
         nextRoute: { pathname: '/apps' as const },

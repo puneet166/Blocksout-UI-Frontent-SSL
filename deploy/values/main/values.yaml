@@ -222,6 +222,7 @@ frontend:
         - "/search-results"
         - "/token"
         - "/tokens"
+        - "/validators"
         - "/accounts"
         - "/visualize"
         - "/api-docs"

@@ -117,7 +117,7 @@ const BlockPageContent = () => {
 
   return (
     <>
-      <TextAd mb={6} />
+      {/* <TextAd mb={6} /> */}
       <PageTitle
         title={`Block #${blockQuery.data?.height}`}
         backLink={backLink}

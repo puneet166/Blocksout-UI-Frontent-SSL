@@ -16,16 +16,16 @@ const SearchBarSuggest = ({ onClick, onClear }: Props) => {
   const isMobile = useIsMobile();
   const bgHoverColor = useColorModeValue('blue.50', 'gray.800');
 
-  const [ keywords, setKeywords ] = React.useState<Array<string>>(getRecentSearchKeywords());
+  const [keywords, setKeywords] = React.useState<Array<string>>(getRecentSearchKeywords());
 
   const handleClick = React.useCallback((kw: string) => () => {
     onClick(kw);
-  }, [ onClick ]);
+  }, [onClick]);
 
   const clearKeywords = React.useCallback(() => {
     clearRecentSearchKeywords();
     onClear();
-  }, [ onClear ]);
+  }, [onClear]);
 
   const removeKeyword = React.useCallback((kw: string) => (e: React.SyntheticEvent) => {
     e.stopPropagation();
@@ -35,7 +35,7 @@ const SearchBarSuggest = ({ onClick, onClear }: Props) => {
       onClear();
     }
     removeRecentSearchKeyword(kw);
-  }, [ keywords, onClear ]);
+  }, [keywords, onClear]);
 
   if (keywords.length === 0) {
     return null;
@@ -43,23 +43,23 @@ const SearchBarSuggest = ({ onClick, onClear }: Props) => {
 
   return (
     <>
-      { !isMobile && (
-        <Box pb={ 4 } mb={ 5 } borderColor="divider" borderBottomWidth="1px" _empty={{ display: 'none' }}>
-          <TextAd/>
+      {!isMobile && (
+        <Box pb={4} mb={5} borderColor="divider" borderBottomWidth="1px" _empty={{ display: 'none' }}>
+          {/* <TextAd/> */}
         </Box>
-      ) }
-      <Flex mb={ 3 } justifyContent="space-between" fontSize="sm">
-        <Text fontWeight={ 600 } variant="secondary">Recent</Text>
-        <Link onClick={ clearKeywords }>Clear all</Link>
+      )}
+      <Flex mb={3} justifyContent="space-between" fontSize="sm">
+        <Text fontWeight={600} variant="secondary">Recent</Text>
+        <Link onClick={clearKeywords}>Clear all</Link>
       </Flex>
-      { keywords.map(kw => (
+      {keywords.map(kw => (
         <Box
-          key={ kw }
-          py={ 3 }
-          px={ 1 }
+          key={kw}
+          py={3}
+          px={1}
           display="flex"
           flexDir="column"
-          rowGap={ 2 }
+          rowGap={2}
           borderColor="divider"
           borderBottomWidth="1px"
           _last={{
@@ -72,16 +72,16 @@ const SearchBarSuggest = ({ onClick, onClear }: Props) => {
           _first={{
             mt: 2,
           }}
-          onClick={ handleClick(kw) }
+          onClick={handleClick(kw)}
         >
           <Flex display="flex" alignItems="center" justifyContent="space-between" cursor="pointer">
-            <Text fontWeight={ 700 } mr={ 2 } w="calc(100% - 36px)" overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
-              { kw.startsWith('0x') ? <HashStringShortenDynamic hash={ kw } isTooltipDisabled/> : kw }
+            <Text fontWeight={700} mr={2} w="calc(100% - 36px)" overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
+              {kw.startsWith('0x') ? <HashStringShortenDynamic hash={kw} isTooltipDisabled /> : kw}
             </Text>
-            <ClearButton onClick={ removeKeyword(kw) }/>
+            <ClearButton onClick={removeKeyword(kw)} />
           </Flex>
         </Box>
-      )) }
+      ))}
     </>
   );
 };

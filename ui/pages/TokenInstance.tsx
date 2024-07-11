@@ -75,7 +75,7 @@ const TokenInstanceContent = () => {
   });
 
   const backLink = React.useMemo(() => {
-    const hasGoBackLink = appProps.referrer && appProps.referrer.includes(`/token/${ hash }`) && !appProps.referrer.includes('instance');
+    const hasGoBackLink = appProps.referrer && appProps.referrer.includes(`/token/${hash}`) && !appProps.referrer.includes('instance');
 
     if (!hasGoBackLink) {
       return;
@@ -85,23 +85,25 @@ const TokenInstanceContent = () => {
       label: 'Back to token page',
       url: appProps.referrer,
     };
-  }, [ appProps.referrer, hash ]);
+  }, [appProps.referrer, hash]);
 
   const tabs: Array<RoutedTab> = [
     {
       id: 'token_transfers',
       title: 'Token transfers',
-      component: <TokenTransfer transfersQuery={ transfersQuery } tokenId={ id } token={ tokenInstanceQuery.data?.token }/>,
+      component: <TokenTransfer transfersQuery={transfersQuery} tokenId={id} token={tokenInstanceQuery.data?.token} />,
     },
     shouldFetchHolders ?
-      { id: 'holders', title: 'Holders', component: <TokenHolders holdersQuery={ holdersQuery } token={ tokenInstanceQuery.data?.token }/> } :
+      { id: 'holders', title: 'Holders', component: <TokenHolders holdersQuery={holdersQuery} token={tokenInstanceQuery.data?.token} /> } :
       undefined,
-    { id: 'metadata', title: 'Metadata', component: (
-      <TokenInstanceMetadata
-        data={ tokenInstanceQuery.data?.metadata }
-        isPlaceholderData={ tokenInstanceQuery.isPlaceholderData }
-      />
-    ) },
+    {
+      id: 'metadata', title: 'Metadata', component: (
+        <TokenInstanceMetadata
+          data={tokenInstanceQuery.data?.metadata}
+          isPlaceholderData={tokenInstanceQuery.isPlaceholderData}
+        />
+      )
+    },
   ].filter(Boolean);
 
   if (tokenInstanceQuery.isError) {
@@ -109,9 +111,9 @@ const TokenInstanceContent = () => {
   }
 
   const nftShieldIcon = tokenInstanceQuery.isPlaceholderData ?
-    <Skeleton boxSize={ 6 } display="inline-block" borderRadius="base" mr={ 2 } my={ 2 } verticalAlign="text-bottom"/> :
-    <Icon as={ nftIcon } boxSize={ 6 } mr={ 2 }/>;
-  const tokenTag = <Tag isLoading={ tokenInstanceQuery.isPlaceholderData }>{ tokenInstanceQuery.data?.token.type }</Tag>;
+    <Skeleton boxSize={6} display="inline-block" borderRadius="base" mr={2} my={2} verticalAlign="text-bottom" /> :
+    <Icon as={nftIcon} boxSize={6} mr={2} />;
+  const tokenTag = <Tag isLoading={tokenInstanceQuery.isPlaceholderData}>{tokenInstanceQuery.data?.token.type}</Tag>;
   const address = {
     hash: hash || '',
     is_contract: true,
@@ -130,17 +132,17 @@ const TokenInstanceContent = () => {
         new URL('https://' + tokenInstanceQuery.data.external_app_url);
 
       return (
-        <Skeleton isLoaded={ !tokenInstanceQuery.isPlaceholderData } display="inline-block" fontSize="sm" mt={ 6 }>
+        <Skeleton isLoaded={!tokenInstanceQuery.isPlaceholderData} display="inline-block" fontSize="sm" mt={6}>
           <span>View in app </span>
-          <LinkExternal href={ url.toString() }>
-            { url.hostname || tokenInstanceQuery.data.external_app_url }
+          <LinkExternal href={url.toString()}>
+            {url.hostname || tokenInstanceQuery.data.external_app_url}
           </LinkExternal>
         </Skeleton>
       );
     } catch (error) {
       return (
-        <Box fontSize="sm" mt={ 6 }>
-          <LinkExternal href={ tokenInstanceQuery.data.external_app_url }>
+        <Box fontSize="sm" mt={6}>
+          <LinkExternal href={tokenInstanceQuery.data.external_app_url}>
             View in app
           </LinkExternal>
         </Box>
@@ -158,32 +160,32 @@ const TokenInstanceContent = () => {
 
   return (
     <>
-      <TextAd mb={ 6 }/>
+      {/* <TextAd mb={ 6 }/> */}
       <PageTitle
-        title={ `${ tokenInstanceQuery.data?.token.name || 'Unnamed token' } #${ tokenInstanceQuery.data?.id }` }
-        backLink={ backLink }
-        beforeTitle={ nftShieldIcon }
-        contentAfter={ tokenTag }
-        isLoading={ tokenInstanceQuery.isPlaceholderData }
+        title={`${tokenInstanceQuery.data?.token.name || 'Unnamed token'} #${tokenInstanceQuery.data?.id}`}
+        backLink={backLink}
+        beforeTitle={nftShieldIcon}
+        contentAfter={tokenTag}
+        isLoading={tokenInstanceQuery.isPlaceholderData}
       />
 
-      <AddressHeadingInfo address={ address } token={ tokenInstanceQuery.data?.token } isLoading={ tokenInstanceQuery.isPlaceholderData }/>
+      <AddressHeadingInfo address={address} token={tokenInstanceQuery.data?.token} isLoading={tokenInstanceQuery.isPlaceholderData} />
 
-      { appLink }
+      {appLink}
 
-      <TokenInstanceDetails data={ tokenInstanceQuery?.data } isLoading={ tokenInstanceQuery.isPlaceholderData } scrollRef={ scrollRef }/>
+      <TokenInstanceDetails data={tokenInstanceQuery?.data} isLoading={tokenInstanceQuery.isPlaceholderData} scrollRef={scrollRef} />
 
-      { /* should stay before tabs to scroll up with pagination */ }
-      <Box ref={ scrollRef }></Box>
+      { /* should stay before tabs to scroll up with pagination */}
+      <Box ref={scrollRef}></Box>
 
-      { tokenInstanceQuery.isPlaceholderData ? <TabsSkeleton tabs={ tabs }/> : (
+      {tokenInstanceQuery.isPlaceholderData ? <TabsSkeleton tabs={tabs} /> : (
         <RoutedTabs
-          tabs={ tabs }
-          tabListProps={ isMobile ? { mt: 8 } : { mt: 3, py: 5, marginBottom: 0 } }
-          rightSlot={ !isMobile && pagination?.isVisible ? <Pagination { ...pagination }/> : null }
-          stickyEnabled={ !isMobile }
+          tabs={tabs}
+          tabListProps={isMobile ? { mt: 8 } : { mt: 3, py: 5, marginBottom: 0 }}
+          rightSlot={!isMobile && pagination?.isVisible ? <Pagination {...pagination} /> : null}
+          stickyEnabled={!isMobile}
         />
-      ) }
+      )}
     </>
   );
 };

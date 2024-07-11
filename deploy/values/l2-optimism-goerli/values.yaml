@@ -267,6 +267,7 @@ frontend:
         - "/search-results"
         - "/token"
         - "/tokens"
+        - "/validators"
         - "/csv-export"
         - "/verified-contracts"
         - "/graphiql"

@@ -60,7 +60,7 @@ const SearchBarSuggest = ({ query, redirectCheckQuery, searchTerm, onItemClick }
         };
       }
     }
-  }, [ redirectCheckQuery.data ]);
+  }, [redirectCheckQuery.data]);
 
   const items = React.useMemo(() => {
     return _uniqBy(
@@ -70,11 +70,11 @@ const SearchBarSuggest = ({ query, redirectCheckQuery, searchTerm, onItemClick }
       ].filter(Boolean),
       getUniqueIdentifier,
     );
-  }, [ query.data?.items, simpleMatch ]);
+  }, [query.data?.items, simpleMatch]);
 
   const content = (() => {
     if (query.isLoading && !simpleMatch) {
-      return <ContentLoader text="We are searching, please wait... " fontSize="sm"/>;
+      return <ContentLoader text="We are searching, please wait... " fontSize="sm" />;
     }
 
     if (query.isError && !simpleMatch) {
@@ -86,22 +86,22 @@ const SearchBarSuggest = ({ query, redirectCheckQuery, searchTerm, onItemClick }
 
     return (
       <>
-        <Text fontWeight={ 500 } fontSize="sm">Found <Text fontWeight={ 700 } as="span">{ num }</Text> matching { resultText }</Text>
-        { items.map((item, index) =>
-          <SearchBarSuggestItem key={ index } data={ item } isMobile={ isMobile } searchTerm={ searchTerm } onClick={ onItemClick }/>) }
-        { query.isLoading && <ContentLoader text="We are still searching, please wait... " fontSize="sm" mt={ 5 }/> }
+        <Text fontWeight={500} fontSize="sm">Found <Text fontWeight={700} as="span">{num}</Text> matching {resultText}</Text>
+        {items.map((item, index) =>
+          <SearchBarSuggestItem key={index} data={item} isMobile={isMobile} searchTerm={searchTerm} onClick={onItemClick} />)}
+        {query.isLoading && <ContentLoader text="We are still searching, please wait... " fontSize="sm" mt={5} />}
       </>
     );
   })();
 
   return (
     <>
-      { !isMobile && (
-        <Box pb={ 4 } mb={ 5 } borderColor="divider" borderBottomWidth="1px" _empty={{ display: 'none' }}>
-          <TextAd/>
+      {!isMobile && (
+        <Box pb={4} mb={5} borderColor="divider" borderBottomWidth="1px" _empty={{ display: 'none' }}>
+          {/* <TextAd/> */}
         </Box>
-      ) }
-      { content }
+      )}
+      {content}
     </>
   );
 };
